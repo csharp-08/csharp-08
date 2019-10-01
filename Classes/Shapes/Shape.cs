@@ -43,5 +43,7 @@ namespace csharp_08
             return str;
         }
 
+        public abstract string Draw();
+
     }
 }

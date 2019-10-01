@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Drawing;
+using Newtonsoft.Json;
+
 
 namespace csharp_08
 {
@@ -31,6 +33,11 @@ namespace csharp_08
             str += "\nCouleur: " + Color.ToString();
 
             return str;
+        }
+
+        public override string Draw()
+        {
+            return JsonConvert.SerializeObject(this);
         }
 
     }

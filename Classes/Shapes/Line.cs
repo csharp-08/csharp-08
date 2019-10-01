@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Drawing;
+using Newtonsoft.Json;
 
 namespace csharp_08
 {
@@ -17,6 +18,11 @@ namespace csharp_08
         public override string ToString()
         {
             return "Forme: Ligne\n" + base.ToString();
+        }
+
+        public override string Draw()
+        {
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

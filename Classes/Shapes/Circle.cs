@@ -12,6 +12,11 @@ namespace csharp_08
         public Circle(List<Tuple<double, double>> Vertices, User Owner, int Thickness = 1, Color Color = new Color(), int Radius = 0) :
                base(Vertices, Owner, Thickness, Color)
         {
+            if (Radius < 0)
+            {
+                throw new NegativeRadiusException();
+            }
+
             this.Radius = Radius;
         }
 

@@ -9,21 +9,21 @@ namespace csharp_08
     public abstract class Shape
     {
         private static uint IDs = 0;
-        public static uint ID { get; private set; }
-        public static List<Tuple<double, double>> Vertices { get; private set; }
-        public static int Thickness { get; private set; }
-        public static Color Color { get; private set; }
-        public static User Owner { get; private set; }
+        public uint ID { get; private set; }
+        public List<Tuple<double, double>> Vertices { get; private set; }
+        public int Thickness { get; private set; }
+        public Color Color { get; private set; }
+        public User Owner { get; private set; }
         
-        public Shape(List<Tuple<double, double>> ShapeVertices, User User, int ShapeThickness = 1, Color ShapeColor = new Color())
+        public Shape(List<Tuple<double, double>> Vertices, User Owner, int Thickness = 1, Color Color = new Color())
         {
             ID = IDs;
             IDs++;
 
-            Vertices = ShapeVertices;
-            Thickness = ShapeThickness;
-            Color = ShapeColor;
-            Owner = User;
+            this.Vertices = Vertices;
+            this.Thickness = Thickness;
+            this.Color = Color;
+            this.Owner = Owner;
         }
 
         public override string ToString()

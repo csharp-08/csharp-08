@@ -18,20 +18,18 @@ namespace csharp_08
             string username = Context.GetHttpContext().Request.Query["username"];
 
             drawers[id] = new User(id, username);
-
-            Debug.WriteLine(drawers.Count);
-
-            Debug.WriteLine($"{username} is connected!");
             await base.OnConnectedAsync();
 
+            await Clients.Caller.SendAsync("ID", id);
             await Clients.All.SendAsync("drawers", JsonConvert.SerializeObject(drawers));
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             string id = Context.ConnectionId;
-            await base.OnDisconnectedAsync(exception);
             drawers.Remove(id);
+
+            await base.OnDisconnectedAsync(exception);
             await Clients.All.SendAsync("drawers", JsonConvert.SerializeObject(drawers));
         }
     }

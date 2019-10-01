@@ -13,5 +13,10 @@ namespace csharp_08
         {
 
         }
+
+        public override string ToString()
+        {
+            return "Forme: Polygone\n" + base.ToString();
+        }
     }
 }

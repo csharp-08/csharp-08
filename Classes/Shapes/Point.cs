@@ -13,5 +13,9 @@ namespace csharp_08
         {
 
         }
+        public override string ToString()
+        {
+            return "Forme: Point\n" + base.ToString();
+        }
     }
 }

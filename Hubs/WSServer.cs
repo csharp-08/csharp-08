@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
-namespace csharp08.Hubs
+namespace csharp_08
 {
     public class WSServer : Hub
     {

@@ -9,16 +9,39 @@ namespace csharp_08
     public abstract class Shape
     {
         private static uint IDs = 0;
-        public static uint ID { get; private set; }
-        public static List<double> Vertices { get; private set; }
-        public static int Thickness { get; private set; }
-        public static Color ShapeColor { get; private set; }
-        public static User User { get; private set; }
+        public uint ID { get; private set; }
+        public List<Tuple<double, double>> Vertices { get; private set; }
+        public int Thickness { get; private set; }
+        public Color Color { get; private set; }
+        public User Owner { get; private set; }
         
-        public Shape()
+        public Shape(List<Tuple<double, double>> Vertices, User Owner, int Thickness = 1, Color Color = new Color())
         {
             ID = IDs;
             IDs++;
+
+            this.Vertices = Vertices;
+            this.Thickness = Thickness;
+            this.Color = Color;
+            this.Owner = Owner;
         }
+
+        public override string ToString()
+        {
+            string str = "";
+
+            str += "ID: " + ID;
+            str += "\nPropriétaire: " + Owner.Username;
+            str += "\nListe des points:";
+            foreach (Tuple<double, double> point in Vertices)
+            {
+                str += "\n\tx: " + point.Item1 + ", y: " + point.Item2;
+            }
+            str += "\nÉpaisseur: " + Thickness;
+            str += "\nCouleur: " + Color.ToString();
+
+            return str;
+        }
+
     }
 }

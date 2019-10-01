@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
-using csharp08.Hubs;
+using csharp_08.Hubs;
 
 namespace csharp_08
 {
@@ -17,14 +17,6 @@ namespace csharp_08
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
-            {
-                builder
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowAnyOrigin()
-                    .AllowCredentials();
-            }));
             services.AddSignalR();
         }
 
@@ -33,15 +25,15 @@ namespace csharp_08
         {
             if (env.IsDevelopment())
             {
-                app.UseCors("CorsPolicy");
                 app.UseDeveloperExceptionPage();
             }
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<WSServer>("/ws-server");
-            });
 
             app.UseFileServer();
+
+            /*app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<CanvasHub>("/chatHub");
+            });*/
 
             app.Run(async (context) =>
             {

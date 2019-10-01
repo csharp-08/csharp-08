@@ -11,10 +11,7 @@ namespace csharp_08
         public Point(List<Tuple<double, double>> Vertices, User Owner, int Thickness = 1, Color Color = new Color()) :
                base(Vertices, Owner, Thickness, Color)
         {
-            if (Vertices.Count() != 1)
-            {
-                throw new InvalidShapeDefinitionException("Point");
-            }
+
         }
         public override string ToString()
         {

@@ -11,10 +11,7 @@ namespace csharp_08
         public Line(List<Tuple<double, double>> Vertices, User Owner, int Thickness = 1, Color Color = new Color()) :
                base(Vertices, Owner, Thickness, Color)
         {
-            if (Vertices.Count() != 2)
-            {
-                throw new InvalidShapeDefinitionException("Line", "A line must be defined by two points");
-            }
+
         }
 
         public override string ToString()

@@ -37,7 +37,7 @@ namespace csharp_08
             }
             app.UseSignalR(routes =>
             {
-                routes.MapHub<Lobby>("/ws-server");
+                routes.MapHub<ConnectionHub>("/ws-server");
             });
 
             app.UseFileServer();

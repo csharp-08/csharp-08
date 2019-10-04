@@ -31,6 +31,11 @@ namespace csharp_08
 
             await Clients.Caller.SendAsync("ID", id);
             await Clients.Group(group).SendAsync("drawers", JsonConvert.SerializeObject(lobby.Drawers));
+
+            foreach (Shape shape in lobby.Canvas.ShapeList)
+            {
+                await Clients.Caller.SendAsync("newShape", "Line", shape);
+            }
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
@@ -44,5 +49,32 @@ namespace csharp_08
             await Clients.Group(lobby.GroupName).SendAsync("drawers", JsonConvert.SerializeObject(lobby.Drawers));
         }
 
+        public async Task AddShape(string shapeType, string newShape)
+        {
+            string id = Context.ConnectionId;
+            Lobby lobby = Lobby.Lobbies[User.Users[id].Lobby];
+
+            Debug.WriteLine(shapeType);
+            Shape shape = null;
+
+            switch (shapeType)
+            {
+                case "Line":
+                    Debug.WriteLine(newShape);
+                    shape = JsonConvert.DeserializeObject<Line>(newShape);
+                    break;
+                default:
+                    Debug.WriteLine("not done yet");
+                    return;
+            }
+            lobby.Canvas.Add(shape);
+            // Debug.WriteLine(canvas);
+
+
+            // JObject shape = JObject.Parse(shapeInput);
+            // Debug.WriteLine(shape.GetValue("toolName"));
+
+            await Clients.Group(lobby.GroupName).SendAsync("newShape", shapeType, shape);
+        }
     }
 }

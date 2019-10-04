@@ -14,7 +14,7 @@ namespace csharp_08
         public int Thickness { get; private set; }
         public Color Color { get; private set; }
         public User Owner { get; private set; }
-        
+
         public Shape(List<Tuple<double, double>> Vertices, User Owner, int Thickness = 1, Color Color = new Color())
         {
             ID = IDs;

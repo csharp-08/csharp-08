@@ -14,8 +14,8 @@ namespace csharp_08
         public Circle(List<Tuple<double, double>> Vertices, User Owner, double Radius, 
                     int Thickness = 1, Color BorderColor = new Color(), Color Color = new Color(),
                     double OffsetX = 0, double OffsetY = 0, double ScaleX = 0,
-                    double ScaleY = 0, double Rotate = 0, bool IsEmpty = true) :
-               base(Vertices, Owner, Thickness, BorderColor, Color, OffsetX, OffsetY, ScaleX, ScaleY, Rotate, IsEmpty)
+                    double ScaleY = 0, double Rotation = 0, bool IsEmpty = true) :
+               base(Vertices, Owner, Thickness, BorderColor, Color, OffsetX, OffsetY, ScaleX, ScaleY, Rotation, IsEmpty)
         {
             if (Radius < 0)
                 throw new NegativeRadiusException();

@@ -15,7 +15,7 @@ namespace csharp_08
         public double OffsetY { get; private set; }
         public double ScaleX { get; private set; }
         public double ScaleY { get; private set; }
-        public double Rotate { get; private set; }
+        public double Rotation { get; private set; }
         public bool IsEmpty { get; private set; }
 
         public ShapeConfig(int Thickness, Color Color, Color BorderColor, 
@@ -29,7 +29,7 @@ namespace csharp_08
             this.OffsetY = OffsetY;
             this.ScaleX = ScaleX;
             this.ScaleY = ScaleY;
-            this.Rotate = Rotate;
+            this.Rotation = Rotate;
             this.IsEmpty = IsEmpty;
         }
     }

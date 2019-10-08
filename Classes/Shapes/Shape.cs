@@ -12,17 +12,17 @@ namespace csharp_08
         public uint ID { get; private set; }
         public List<Tuple<double, double>> Vertices { get; private set; }
         public ShapeConfig Config { get; private set; }
-        public User Owner { get; set; }
+        public User Owner { get; private set; }
 
         public Shape(List<Tuple<double, double>> Vertices, User Owner = null,
                     int Thickness = 1, Color BorderColor = new Color(), Color Color = new Color(),
                     double OffsetX = 0, double OffsetY = 0, double ScaleX = 0, 
-                    double ScaleY = 0, double Rotate = 0, bool IsEmpty = true)
+                    double ScaleY = 0, double Rotation = 0, bool IsEmpty = true)
         {
             ID = IDs;
             IDs++;
 
-            Config = new ShapeConfig(Thickness, Color, BorderColor, OffsetX, OffsetY, ScaleX, ScaleY, Rotate, IsEmpty);
+            Config = new ShapeConfig(Thickness, Color, BorderColor, OffsetX, OffsetY, ScaleX, ScaleY, Rotation, IsEmpty);
 
             this.Vertices = Vertices;
             this.Owner = Owner;

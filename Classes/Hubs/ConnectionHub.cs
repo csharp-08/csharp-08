@@ -18,9 +18,11 @@ namespace csharp_08
             await base.OnConnectedAsync();
 
             Lobby lobby;
-            if (! Lobby.Lobbies.ContainsKey(group)){
+            if (!Lobby.Lobbies.ContainsKey(group))
+            {
                 lobby = new Lobby(group);
-            } else
+            }
+            else
             {
                 lobby = Lobby.Lobbies[group];
             }
@@ -62,6 +64,8 @@ namespace csharp_08
                 case "Line":
                     Debug.WriteLine(newShape);
                     shape = JsonConvert.DeserializeObject<Line>(newShape);
+                    shape.Owner = User.Users[id];
+                    Debug.WriteLine(shape);
                     break;
                 default:
                     Debug.WriteLine("not done yet");
@@ -74,7 +78,7 @@ namespace csharp_08
             // JObject shape = JObject.Parse(shapeInput);
             // Debug.WriteLine(shape.GetValue("toolName"));
 
-            await Clients.Group(lobby.GroupName).SendAsync("newShape", shapeType, shape);
+            await Clients.OthersInGroup(lobby.GroupName).SendAsync("newShape", shapeType, shape);
         }
     }
 }

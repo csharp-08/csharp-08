@@ -57,7 +57,7 @@ namespace csharp_08
             Lobby lobby = Lobby.Lobbies[User.Users[id].Lobby];
 
             Debug.WriteLine(shapeType);
-            Shape shape = null;
+            Shape shape;
 
             switch (shapeType)
             {
@@ -72,12 +72,6 @@ namespace csharp_08
                     return;
             }
             lobby.Canvas.Add(shape);
-            // Debug.WriteLine(canvas);
-
-
-            // JObject shape = JObject.Parse(shapeInput);
-            // Debug.WriteLine(shape.GetValue("toolName"));
-
             await Clients.OthersInGroup(lobby.GroupName).SendAsync("newShape", shapeType, shape);
         }
     }

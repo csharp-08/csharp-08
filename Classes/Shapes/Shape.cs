@@ -16,8 +16,8 @@ namespace csharp_08
 
         public Shape(List<Tuple<double, double>> Vertices, User Owner = null,
                     int Thickness = 1, Color BorderColor = new Color(), Color Color = new Color(),
-                    double OffsetX = 0, double OffsetY = 0, double ScaleX = 0, 
-                    double ScaleY = 0, double Rotation = 0, bool IsEmpty = true)
+                    double OffsetX = 0, double OffsetY = 0, double ScaleX = 1, 
+                    double ScaleY = 1, double Rotation = 0, bool IsEmpty = true)
         {
             ID = IDs;
             IDs++;

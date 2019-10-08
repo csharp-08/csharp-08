@@ -17,6 +17,9 @@ namespace csharp_08
                     double ScaleY = 0, double Rotate = 0, bool IsEmpty = true) :
                base(Vertices, Owner, Thickness, BorderColor, Color, OffsetX, OffsetY, ScaleX, ScaleY, Rotate, IsEmpty)
         {
+            if (Radius < 0)
+                throw new NegativeRadiusException();
+
             this.Radius = Radius;
         }
 

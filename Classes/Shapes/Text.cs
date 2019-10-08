@@ -10,8 +10,11 @@ namespace csharp_08.Classes.Shapes
     public class Text : Shape
     {
         public string InnerText;
-        public Text(List<Tuple<double, double>> Vertices, User Owner, string Text, int Thickness = 1, Color Color = new Color()) :
-               base(Vertices, Owner, Thickness, Color)
+        public Text(List<Tuple<double, double>> Vertices, User Owner, string Text, 
+                    int Thickness = 1, Color BorderColor = new Color(), Color Color = new Color(),
+                    double OffsetX = 0, double OffsetY = 0, double ScaleX = 0,
+                    double ScaleY = 0, double Rotate = 0, bool IsEmpty = true) :
+               base(Vertices, Owner, Thickness, BorderColor, Color, OffsetX, OffsetY, ScaleX, ScaleY, Rotate, IsEmpty)
         {
             InnerText = Text;
         }

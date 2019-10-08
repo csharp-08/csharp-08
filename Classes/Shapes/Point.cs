@@ -9,8 +9,11 @@ namespace csharp_08
 {
     public class Point : Shape
     {
-        public Point(List<Tuple<double, double>> Vertices, User Owner, int Thickness = 1, Color Color = new Color()) :
-               base(Vertices, Owner, Thickness, Color)
+        public Point(List<Tuple<double, double>> Vertices, User Owner,
+                    int Thickness = 1, Color BorderColor = new Color(), Color Color = new Color(),
+                    double OffsetX = 0, double OffsetY = 0, double ScaleX = 0,
+                    double ScaleY = 0, double Rotate = 0, bool IsEmpty = true) :
+               base(Vertices, Owner, Thickness, BorderColor, Color, OffsetX, OffsetY, ScaleX, ScaleY, Rotate, IsEmpty)
         {
 
         }

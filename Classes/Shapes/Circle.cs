@@ -10,9 +10,12 @@ namespace csharp_08
 {
     public class Circle : Shape
     {
-        public int Radius { get; private set; }
-        public Circle(List<Tuple<double, double>> Vertices, User Owner, int Thickness = 1, Color Color = new Color(), int Radius = 0) :
-               base(Vertices, Owner, Thickness, Color)
+        public double Radius { get; private set; }
+        public Circle(List<Tuple<double, double>> Vertices, User Owner, double Radius, 
+                    int Thickness = 1, Color BorderColor = new Color(), Color Color = new Color(),
+                    double OffsetX = 0, double OffsetY = 0, double ScaleX = 0,
+                    double ScaleY = 0, double Rotate = 0, bool IsEmpty = true) :
+               base(Vertices, Owner, Thickness, BorderColor, Color, OffsetX, OffsetY, ScaleX, ScaleY, Rotate, IsEmpty)
         {
             this.Radius = Radius;
         }
@@ -29,8 +32,8 @@ namespace csharp_08
             str += "\n\tx: " + point.Item1 + ", y: " + point.Item2;
 
             str += "\nRayon: " + Radius;
-            str += "\nÉpaisseur: " + Thickness;
-            str += "\nCouleur: " + Color.ToString();
+            str += "\nÉpaisseur: " + Config.Thickness;
+            str += "\nCouleur: " + Config.Color.ToString();
 
             return str;
         }

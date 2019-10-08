@@ -11,18 +11,20 @@ namespace csharp_08
         private static uint IDs = 0;
         public uint ID { get; private set; }
         public List<Tuple<double, double>> Vertices { get; private set; }
-        public int Thickness { get; private set; }
-        public Color Color { get; private set; }
+        public ShapeConfig Config { get; private set; }
         public User Owner { get; set; }
 
-        public Shape(List<Tuple<double, double>> Vertices, User Owner = null, int Thickness = 1, Color Color = new Color())
+        public Shape(List<Tuple<double, double>> Vertices, User Owner = null,
+                    int Thickness = 1, Color BorderColor = new Color(), Color Color = new Color(),
+                    double OffsetX = 0, double OffsetY = 0, double ScaleX = 0, 
+                    double ScaleY = 0, double Rotate = 0, bool IsEmpty = true)
         {
             ID = IDs;
             IDs++;
 
+            Config = new ShapeConfig(Thickness, Color, BorderColor, OffsetX, OffsetY, ScaleX, ScaleY, Rotate, IsEmpty);
+
             this.Vertices = Vertices;
-            this.Thickness = Thickness;
-            this.Color = Color;
             this.Owner = Owner;
         }
 
@@ -37,8 +39,8 @@ namespace csharp_08
             {
                 str += "\n\tx: " + point.Item1 + ", y: " + point.Item2;
             }
-            str += "\nÉpaisseur: " + Thickness;
-            str += "\nCouleur: " + Color.ToString();
+            str += "\nÉpaisseur: " + Config.Thickness;
+            str += "\nCouleur: " + Config.Color.ToString();
 
             return str;
         }

@@ -34,7 +34,7 @@ namespace csharp_08
             await Clients.Caller.SendAsync("ID", id);
             await Clients.Group(group).SendAsync("drawers", JsonConvert.SerializeObject(lobby.Drawers));
 
-            foreach (Shape shape in lobby.Canvas.ShapeList)
+            foreach (Shape shape in lobby.Canvas.Shapes.Values)
             {
                 await Clients.Caller.SendAsync("newShape", "Line", shape);
             }
@@ -51,7 +51,7 @@ namespace csharp_08
             await Clients.Group(lobby.GroupName).SendAsync("drawers", JsonConvert.SerializeObject(lobby.Drawers));
         }
 
-        public async Task AddShape(string shapeType, string newShape)
+        public async Task AddShape(string shapeType, string newShape, uint shapeId = uint.MaxValue)
         {
             string id = Context.ConnectionId;
             Lobby lobby = Lobby.Lobbies[User.Users[id].Lobby];
@@ -71,7 +71,15 @@ namespace csharp_08
                     Debug.WriteLine("not done yet");
                     return;
             }
-            lobby.Canvas.Add(shape);
+
+            if (shapeId == uint.MaxValue)
+            {
+                shapeId = shape.ID;
+                lobby.Canvas.Shapes.Add(shapeId, shape);
+            }
+            else
+                lobby.Canvas.Shapes[shapeId] = shape;
+
             await Clients.OthersInGroup(lobby.GroupName).SendAsync("newShape", shapeType, shape);
         }
     }

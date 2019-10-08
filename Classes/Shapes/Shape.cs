@@ -12,7 +12,7 @@ namespace csharp_08
         public uint ID { get; private set; }
         public List<Tuple<double, double>> Vertices { get; private set; }
         public ShapeConfig Config { get; private set; }
-        public User Owner { get; private set; }
+        public User Owner { get; set; }
 
         public Shape(List<Tuple<double, double>> Vertices, User Owner = null,
                     int Thickness = 1, Color BorderColor = new Color(), Color Color = new Color(),

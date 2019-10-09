@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace csharp_08
 {
@@ -18,9 +14,9 @@ namespace csharp_08
         public double Rotation { get; private set; }
         public bool IsEmpty { get; private set; }
 
-        public ShapeConfig(int Thickness, Color Color, Color BorderColor, 
-                           double OffsetX, double OffsetY, double ScaleX,
-                           double ScaleY, double Rotate, bool IsEmpty)
+        public ShapeConfig(int Thickness = 10, Color Color = new Color(), Color BorderColor = new Color(), 
+                           double OffsetX = 0, double OffsetY = 0, double ScaleX = 1,
+                           double ScaleY = 1, double Rotate = 0, bool IsEmpty = false)
         {
             this.Thickness = Thickness;
             this.Color = Color;
@@ -31,6 +27,18 @@ namespace csharp_08
             this.ScaleY = ScaleY;
             this.Rotation = Rotate;
             this.IsEmpty = IsEmpty;
+        }
+
+        public static ShapeConfig DefaultConfig()
+        {
+            return new ShapeConfig(10, new Color(), Color.Black, 0, 0, 1, 1, 0, false);
+        }
+
+        public override string ToString()
+        {
+            string str = $"Congig(Thickness: {Thickness}, Color: {Color}, BorderColor: {BorderColor}, OffsetX: {OffsetX}, ";
+            str += $"OffsetY: {OffsetY}, ScaleX: {ScaleX}, ScaleY: {ScaleY}, Rotation: {Rotation}, IsEmpty: {IsEmpty} )";
+            return str;
         }
     }
 }

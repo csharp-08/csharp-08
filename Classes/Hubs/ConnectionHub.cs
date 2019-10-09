@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -36,7 +35,7 @@ namespace csharp_08
 
             foreach (Shape shape in lobby.Canvas.Shapes.Values)
             {
-                await Clients.Caller.SendAsync("newShape", "Line", shape);
+                await Clients.Caller.SendAsync("newShape", shape.GetType().Name, shape);
             }
         }
 
@@ -51,35 +50,46 @@ namespace csharp_08
             await Clients.Group(lobby.GroupName).SendAsync("drawers", JsonConvert.SerializeObject(lobby.Drawers));
         }
 
+        private Shape GetShapeFromJSON(string shapeType, string newShape)
+        {
+            switch (shapeType)
+            {
+                case "Line":
+                    return JsonConvert.DeserializeObject<Line>(newShape);
+                case "Pencil":
+                    return JsonConvert.DeserializeObject<Pencil>(newShape);
+                case "Circle":
+                    return JsonConvert.DeserializeObject<Circle>(newShape);
+                case "Text":
+                    return JsonConvert.DeserializeObject<Text>(newShape);
+                default:
+                    Debug.WriteLine("not done yet");
+                    return null;
+            }
+        }
+
         public async Task AddShape(string shapeType, string newShape)
         {
             string id = Context.ConnectionId;
             Lobby lobby = Lobby.Lobbies[User.Users[id].Lobby];
 
-            Debug.WriteLine(shapeType);
-            Shape shape;
-
-            switch (shapeType)
-            {
-                case "Line":
-                    Debug.WriteLine(newShape);
-                    shape = JsonConvert.DeserializeObject<Line>(newShape);
-                    shape.Owner = User.Users[id];
-                    Debug.WriteLine(shape);
-                    break;
-                default:
-                    Debug.WriteLine("not done yet");
-                    return;
-            }
-
-            if (!lobby.Canvas.Shapes.ContainsKey(shape.ID))
-            {
-                lobby.Canvas.Shapes.Add(shape.ID, shape);
-            }
-            else
-                lobby.Canvas.Shapes[shape.ID] = shape;
+            Shape shape = this.GetShapeFromJSON(shapeType, newShape);
+            shape.Owner = User.Users[id];
+            lobby.Canvas.Shapes.Add(shape.ID, shape);
 
             await Clients.OthersInGroup(lobby.GroupName).SendAsync("newShape", shapeType, shape);
+        }
+
+        public async Task UpdateShape(string shapeType, string newShape)
+        {
+            string id = Context.ConnectionId;
+            Lobby lobby = Lobby.Lobbies[User.Users[id].Lobby];
+
+            Shape updatedshape = this.GetShapeFromJSON(shapeType, newShape);
+            Shape oldShape = lobby.Canvas.Shapes[updatedshape.ID];
+            oldShape.UpdateWithNewShape(updatedshape);
+
+            await Clients.OthersInGroup(lobby.GroupName).SendAsync("updateShape", shapeType, oldShape);
         }
     }
 }

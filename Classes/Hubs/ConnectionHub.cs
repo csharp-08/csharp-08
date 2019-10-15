@@ -92,7 +92,7 @@ namespace csharp_08
             Shape updatedShape = GetShapeFromJSON(shapeType, newShape);
             Shape oldShape = lobby.Canvas.Shapes[updatedShape.ID];
 
-            if (((user.OverridePermission & 1) != (updatedShape.OverrideUserPolicy & 1)) || updatedShape.Owner == user)
+            if (((user.OverridePermissions & 1) != (updatedShape.OverrideUserPolicy & 1)) || updatedShape.Owner == user)
             {
                 oldShape.UpdateWithNewShape(updatedShape);
 
@@ -109,10 +109,10 @@ namespace csharp_08
             string id = Context.ConnectionId;
             User user = User.Users[id];
             Lobby lobby = Lobby.Lobbies[user.Lobby];
-            Shape deletedShape = GetShapeFromJSON(shapeType, shape); ;
+            Shape deletedShape = GetShapeFromJSON(shapeType, shape);
             deletedShape = lobby.Canvas.Shapes[deletedShape.ID];
 
-            if ((user.OverridePermission >> 1 != deletedShape.OverrideUserPolicy >> 1) || deletedShape.Owner == user) 
+            if ((user.OverridePermissions >> 1 != deletedShape.OverrideUserPolicy >> 1) || deletedShape.Owner == user) 
             {
                 lobby.Canvas.Shapes.Remove(deletedShape.ID);
 

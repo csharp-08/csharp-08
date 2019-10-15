@@ -29,7 +29,7 @@ namespace csharp_08
             this.Owner = Owner;
             if (Config == null)
             {
-                this.Config = ShapeConfig.DefaultConfig();
+                this.Config = ShapeConfig.DefaultConfig;
             } else
             {
                 this.Config = Config;

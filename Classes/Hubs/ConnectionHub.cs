@@ -16,7 +16,7 @@ namespace csharp_08
 
             await base.OnConnectedAsync();
 
-            Lobby lobby;
+            /* Lobby lobby;
             if (!Lobby.Lobbies.ContainsKey(group))
             {
                 lobby = new Lobby(group);
@@ -24,6 +24,10 @@ namespace csharp_08
             else
             {
                 lobby = Lobby.Lobbies[group];
+            } */
+            if (!Lobby.Lobbies.TryGetValue(group, out var lobby))
+            {
+                lobby = new Lobby(group);
             }
 
             User user = new User(id, username, group);
@@ -50,7 +54,7 @@ namespace csharp_08
             await Clients.Group(lobby.GroupName).SendAsync("drawers", JsonConvert.SerializeObject(lobby.Drawers));
         }
 
-        private Shape GetShapeFromJSON(string shapeType, string newShape)
+        private static Shape GetShapeFromJSON(string shapeType, string newShape)
         {
             switch (shapeType)
             {
@@ -73,7 +77,7 @@ namespace csharp_08
             string id = Context.ConnectionId;
             Lobby lobby = Lobby.Lobbies[User.Users[id].Lobby];
 
-            Shape shape = this.GetShapeFromJSON(shapeType, newShape);
+            Shape shape = GetShapeFromJSON(shapeType, newShape);
             shape.Owner = User.Users[id];
             lobby.Canvas.Shapes.Add(shape.ID, shape);
 
@@ -85,7 +89,7 @@ namespace csharp_08
             string id = Context.ConnectionId;
             Lobby lobby = Lobby.Lobbies[User.Users[id].Lobby];
 
-            Shape updatedshape = this.GetShapeFromJSON(shapeType, newShape);
+            Shape updatedshape = GetShapeFromJSON(shapeType, newShape);
             Shape oldShape = lobby.Canvas.Shapes[updatedshape.ID];
             oldShape.UpdateWithNewShape(updatedshape);
 

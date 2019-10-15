@@ -29,10 +29,7 @@ namespace csharp_08
             this.IsEmpty = IsEmpty;
         }
 
-        public static ShapeConfig DefaultConfig()
-        {
-            return new ShapeConfig(10, new Color(), Color.Black, 0, 0, 1, 1, 0, false);
-        }
+        public static ShapeConfig DefaultConfig { get; } = new ShapeConfig(10, new Color(), Color.Black, 0, 0, 1, 1, 0, false);
 
         public override string ToString()
         {

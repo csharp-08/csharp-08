@@ -8,7 +8,7 @@ namespace csharp_08
 {
     public class Lobby
     {
-        public static Dictionary<string, Lobby> Lobbies { get; private set; } = new Dictionary<string, Lobby>();
+        public static Dictionary<string, Lobby> Lobbies { get; } = new Dictionary<string, Lobby>();
         public Dictionary<string, User> Drawers { get; private set; }
         public string GroupName;
         public Canvas Canvas { get; private set; }

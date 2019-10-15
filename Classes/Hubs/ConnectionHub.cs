@@ -77,7 +77,7 @@ namespace csharp_08
             shape.Owner = User.Users[id];
             lobby.Canvas.Shapes.Add(shape.ID, shape);
 
-            await Clients.OthersInGroup(lobby.GroupName).SendAsync("newShape", shapeType, shape);
+            await Clients.Group(lobby.GroupName).SendAsync("newShape", shapeType, shape);
         }
 
         public async Task UpdateShape(string shapeType, string newShape)
@@ -89,7 +89,7 @@ namespace csharp_08
             Shape oldShape = lobby.Canvas.Shapes[updatedshape.ID];
             oldShape.UpdateWithNewShape(updatedshape);
 
-            await Clients.OthersInGroup(lobby.GroupName).SendAsync("updateShape", shapeType, oldShape);
+            await Clients.Group(lobby.GroupName).SendAsync("updateShape", shapeType, oldShape);
         }
     }
 }

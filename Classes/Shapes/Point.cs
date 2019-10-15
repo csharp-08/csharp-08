@@ -12,7 +12,7 @@ namespace csharp_08
         }
         public override string ToString()
         {
-            return "Forme: Point\n" + base.ToString();
+            return "Forme: Point" + Environment.NewLine + base.ToString();
         }
         public override string Draw()
         {

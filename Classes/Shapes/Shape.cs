@@ -11,6 +11,7 @@ namespace csharp_08
         public List<Tuple<double, double>> Vertices { get; private set; }
         public ShapeConfig Config { get; private set; }
         public User Owner { get; set; }
+        public byte OverrideUserPolicy { get; set; }
 
         protected Shape(List<Tuple<double, double>> Vertices, User Owner = null, ShapeConfig Config = null, uint ID = 0)
         {
@@ -34,6 +35,8 @@ namespace csharp_08
             {
                 this.Config = Config;
             }
+
+            this.OverrideUserPolicy = 0;
         }
 
         public override string ToString()

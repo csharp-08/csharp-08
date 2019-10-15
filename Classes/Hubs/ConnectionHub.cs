@@ -87,13 +87,41 @@ namespace csharp_08
         public async Task UpdateShape(string shapeType, string newShape)
         {
             string id = Context.ConnectionId;
-            Lobby lobby = Lobby.Lobbies[User.Users[id].Lobby];
+            User user = User.Users[id];
+            Lobby lobby = Lobby.Lobbies[user.Lobby];
+            Shape updatedShape = GetShapeFromJSON(shapeType, newShape);
+            Shape oldShape = lobby.Canvas.Shapes[updatedShape.ID];
 
-            Shape updatedshape = GetShapeFromJSON(shapeType, newShape);
-            Shape oldShape = lobby.Canvas.Shapes[updatedshape.ID];
-            oldShape.UpdateWithNewShape(updatedshape);
+            if (((user.OverridePermission & 1) != (updatedShape.OverrideUserPolicy & 1)) || updatedShape.Owner == user)
+            {
+                oldShape.UpdateWithNewShape(updatedShape);
 
-            await Clients.Group(lobby.GroupName).SendAsync("updateShape", shapeType, oldShape);
+                await Clients.Group(lobby.GroupName).SendAsync("updateShape", shapeType, oldShape);
+            }
+            else
+            {
+                await Clients.Caller.SendAsync("updateShape", null, null);
+            }
+        }
+
+        public async Task DeleteShape(string shapeType, string shape)
+        {
+            string id = Context.ConnectionId;
+            User user = User.Users[id];
+            Lobby lobby = Lobby.Lobbies[user.Lobby];
+            Shape deletedShape = GetShapeFromJSON(shapeType, shape); ;
+            deletedShape = lobby.Canvas.Shapes[deletedShape.ID];
+
+            if ((user.OverridePermission >> 1 != deletedShape.OverrideUserPolicy >> 1) || deletedShape.Owner == user) 
+            {
+                lobby.Canvas.Shapes.Remove(deletedShape.ID);
+
+                await Clients.Group(lobby.GroupName).SendAsync("deleteShape", shapeType, deletedShape.ID);
+            }
+            else
+            {
+                await Clients.Caller.SendAsync("deleteShape", null, null);
+            }
         }
     }
 }

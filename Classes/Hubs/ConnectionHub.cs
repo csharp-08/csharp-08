@@ -30,6 +30,21 @@ namespace csharp_08
             if (!Lobby.Lobbies.TryGetValue(group, out var lobby))
             {
                 lobby = new Lobby(group);
+
+                SQLiteCommand lobbySQL = new SQLiteCommand("INSERT INTO Lobbies VALUES (@name, @canvasId)", db);
+                lobbySQL.Parameters.Add(new SQLiteParameter("@name", DbType.String));
+                lobbySQL.Parameters.Add(new SQLiteParameter("@canvasId", DbType.Int32));
+                lobbySQL.Parameters["@name"].Value = lobby.GroupName;
+                lobbySQL.Parameters["@canvasId"].Value = lobby.Canvas.Id;
+
+                SQLiteCommand canvasSQL = new SQLiteCommand("INSERT INTO Canvas VALUES (@id, @data)", db);
+                canvasSQL.Parameters.Add(new SQLiteParameter("@id", DbType.Int32));
+                canvasSQL.Parameters.Add(new SQLiteParameter("@data", DbType.String));
+                canvasSQL.Parameters["@id"].Value = lobby.Canvas.Id;
+                canvasSQL.Parameters["@data"].Value = "{ }";
+
+                lobbySQL.ExecuteNonQuery();
+                canvasSQL.ExecuteNonQuery();
             }
 
             // Create user
@@ -38,17 +53,17 @@ namespace csharp_08
             lobby.AddUser(user);
 
             // Insert user into the table "Users"
-            SQLiteCommand sql = new SQLiteCommand("INSERT INTO Users VALUES (@id, @username, @lobby, @permissions)", db);
-            sql.Parameters.Add(new SQLiteParameter("@id", DbType.String));
-            sql.Parameters.Add(new SQLiteParameter("@username", DbType.String));
-            sql.Parameters.Add(new SQLiteParameter("@lobby", DbType.String));
-            sql.Parameters.Add(new SQLiteParameter("@permissions", DbType.Int32));
-            sql.Parameters["@id"].Value = user.ConnectionId;
-            sql.Parameters["@username"].Value = user.Username;
-            sql.Parameters["@lobby"].Value = user.Lobby;
-            sql.Parameters["@permissions"].Value = user.OverridePermissions;
+            SQLiteCommand userSQL = new SQLiteCommand("INSERT INTO Users VALUES (@id, @username, @lobby, @permissions)", db);
+            userSQL.Parameters.Add(new SQLiteParameter("@id", DbType.String));
+            userSQL.Parameters.Add(new SQLiteParameter("@username", DbType.String));
+            userSQL.Parameters.Add(new SQLiteParameter("@lobby", DbType.String));
+            userSQL.Parameters.Add(new SQLiteParameter("@permissions", DbType.Int32));
+            userSQL.Parameters["@id"].Value = user.ConnectionId;
+            userSQL.Parameters["@username"].Value = user.Username;
+            userSQL.Parameters["@lobby"].Value = user.Lobby;
+            userSQL.Parameters["@permissions"].Value = user.OverridePermissions;
 
-            int affected = sql.ExecuteNonQuery();
+            int affected = userSQL.ExecuteNonQuery();
             Debug.WriteLine(affected);
 
             // Close connection to the database

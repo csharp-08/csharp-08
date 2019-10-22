@@ -7,6 +7,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Data.SQLite;
+using System.Diagnostics;
 
 namespace csharp_08
 {
@@ -14,6 +16,25 @@ namespace csharp_08
     {
         public static void Main(string[] args)
         {
+            Debug.WriteLine("Entering Main ...");
+
+            Debug.WriteLine("Creating Database (if not exists) ...");
+
+            // Create file if not exists
+            if (!File.Exists("database.db"))
+            {
+                SQLiteConnection.CreateFile("database.db");
+                SQLiteConnection db = new SQLiteConnection("Data Source=database.db;Version=3;");
+                db.Open();
+
+                SQLiteCommand sql = new SQLiteCommand("CREATE TABLE Users (id VARCHAR(255) PRIMARY KEY NOT NULL, username VARCHAR(255), lobby VARCHAR(255), overridePermisions INT)", db);
+                sql.ExecuteNonQuery();
+
+                db.Close();
+            }
+            Debug.WriteLine("Database created !");
+
+
             CreateWebHostBuilder(args).Build().Run();
         }
 

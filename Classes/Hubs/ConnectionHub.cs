@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Data.SQLite;
+using System.Data;
 
 namespace csharp_08
 {
@@ -10,29 +12,43 @@ namespace csharp_08
     {
         public override async Task OnConnectedAsync()
         {
+            Debug.WriteLine("New connection ...");
+            // Connect to local DB
+            SQLiteConnection db = new SQLiteConnection("Data Source=database.db;Version=3;");
+            db.Open();
+
             string id = Context.ConnectionId;
             string username = Context.GetHttpContext().Request.Query["username"];
             string group = Context.GetHttpContext().Request.Query["lobby"];
 
             await base.OnConnectedAsync();
 
-            /* Lobby lobby;
-            if (!Lobby.Lobbies.ContainsKey(group))
-            {
-                lobby = new Lobby(group);
-            }
-            else
-            {
-                lobby = Lobby.Lobbies[group];
-            } */
             if (!Lobby.Lobbies.TryGetValue(group, out var lobby))
             {
                 lobby = new Lobby(group);
             }
 
+            // Create user
             User user = new User(id, username, group);
             await Groups.AddToGroupAsync(user.ConnectionId, group);
             lobby.AddUser(user);
+
+            // Insert user into the table "Users"
+            SQLiteCommand sql = new SQLiteCommand("INSERT INTO Users VALUES (@id, @username, @lobby, @permissions)", db);
+            sql.Parameters.Add(new SQLiteParameter("@id", DbType.String));
+            sql.Parameters.Add(new SQLiteParameter("@username", DbType.String));
+            sql.Parameters.Add(new SQLiteParameter("@lobby", DbType.String));
+            sql.Parameters.Add(new SQLiteParameter("@permissions", DbType.Int32));
+            sql.Parameters["@id"].Value = user.ConnectionId;
+            sql.Parameters["@username"].Value = user.Username;
+            sql.Parameters["@lobby"].Value = user.Lobby;
+            sql.Parameters["@permissions"].Value = user.OverridePermissions;
+
+            int affected = sql.ExecuteNonQuery();
+            Debug.WriteLine(affected);
+
+            // Close connection to the database
+            db.Close();
 
             await Clients.Caller.SendAsync("ID", id);
             await Clients.Group(group).SendAsync("drawers", JsonConvert.SerializeObject(lobby.Drawers));
@@ -45,6 +61,7 @@ namespace csharp_08
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
+            Debug.WriteLine("Disconnecting ...");
             string id = Context.ConnectionId;
             Lobby lobby = Lobby.Lobbies[User.Users[id].Lobby];
             User.Users.Remove(id);
@@ -74,6 +91,7 @@ namespace csharp_08
 
         public async Task AddShape(string shapeType, string newShape)
         {
+            Debug.WriteLine("New shape received");
             string id = Context.ConnectionId;
             Lobby lobby = Lobby.Lobbies[User.Users[id].Lobby];
 

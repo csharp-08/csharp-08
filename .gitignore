@@ -343,3 +343,6 @@ wwwroot/
 
 # Ignore .DS_STORE
 .DS_Store
+
+# Ignore local DB
+*.db

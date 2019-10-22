@@ -102,6 +102,10 @@ namespace csharp_08
                     return JsonConvert.DeserializeObject<Circle>(newShape);
                 case (byte)ShapeCode.Text:
                     return JsonConvert.DeserializeObject<Text>(newShape);
+                case (byte)ShapeCode.Polygon:
+                    return JsonConvert.DeserializeObject<Polygon>(newShape);
+                case (byte)ShapeCode.Point:
+                    return JsonConvert.DeserializeObject<Point>(newShape);
                 default:
                     Debug.WriteLine("not done yet");
                     return null;

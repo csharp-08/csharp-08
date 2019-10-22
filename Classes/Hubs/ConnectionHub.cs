@@ -114,7 +114,7 @@ namespace csharp_08
             Shape updatedShape = GetShapeFromJSON(byte.Parse(shapeType), newShape);
             Shape oldShape = lobby.Canvas.Shapes[updatedShape.ID];
 
-            if (((user.OverridePermissions & 1) != (oldShape.OverrideUserPolicy & 1)) || oldShape.Owner == user)
+            if (((oldShape.Owner.OverridePermissions & 1) != (oldShape.OverrideUserPolicy & 1)) || oldShape.Owner == user)
             {
                 oldShape.UpdateWithNewShape(updatedShape);
 
@@ -126,24 +126,53 @@ namespace csharp_08
             }
         }
 
-        public async Task DeleteShape(string shapeType, string shape)
+        public async Task DeleteShape(string shapeIDstring)
+        {
+            string id = Context.ConnectionId;
+            uint shapeID = uint.Parse(shapeIDstring);
+            User user = User.Users[id];
+            Lobby lobby = Lobby.Lobbies[user.Lobby];
+            var deletedShape = lobby.Canvas.Shapes[shapeID];
+
+            if ((deletedShape.Owner.OverridePermissions >> 1 != deletedShape.OverrideUserPolicy >> 1) || deletedShape.Owner == user) 
+            {
+                lobby.Canvas.Shapes.Remove(deletedShape.ID);
+                await Clients.Group(lobby.GroupName).SendAsync("deleteShape", deletedShape.ID);
+            }
+            else
+            {
+                await Clients.Caller.SendAsync("deleteShape", null);
+            }
+        }
+
+        public async Task UpdateShapePermission(string shapeIDstring, string permission)
+        {
+            string id = Context.ConnectionId;
+            uint shapeID = uint.Parse(shapeIDstring);
+            byte newPermission = byte.Parse(permission);
+            User user = User.Users[id];
+            Lobby lobby = Lobby.Lobbies[user.Lobby];
+            var Shape = lobby.Canvas.Shapes[shapeID];
+
+            if (Shape.Owner == user)
+            {
+                Shape.OverrideUserPolicy = newPermission;
+                await Clients.Group(lobby.GroupName).SendAsync("newShapePermission", Shape.ID, Shape.OverrideUserPolicy);
+            }
+            else
+            {
+                await Clients.Caller.SendAsync("newShapePermission", null, null);
+            }
+        }
+
+        public async Task UpdateUserPermission(string permission)
         {
             string id = Context.ConnectionId;
             User user = User.Users[id];
             Lobby lobby = Lobby.Lobbies[user.Lobby];
-            Shape deletedShape = GetShapeFromJSON(byte.Parse(shapeType), shape);
-            deletedShape = lobby.Canvas.Shapes[deletedShape.ID];
-
-            if ((user.OverridePermissions >> 1 != deletedShape.OverrideUserPolicy >> 1) || deletedShape.Owner == user)
-            {
-                lobby.Canvas.Shapes.Remove(deletedShape.ID);
-
-                await Clients.Group(lobby.GroupName).SendAsync("deleteShape", shapeType, deletedShape.ID);
-            }
-            else
-            {
-                await Clients.Caller.SendAsync("deleteShape", null, null);
-            }
+            byte newPermission = byte.Parse(permission);
+            user.OverridePermissions = newPermission;
+            await Clients.Group(lobby.GroupName).SendAsync("newUserPermission", id, newPermission);
         }
     }
 }

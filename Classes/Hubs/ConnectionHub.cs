@@ -92,7 +92,7 @@ namespace csharp_08
             Shape updatedShape = GetShapeFromJSON(shapeType, newShape);
             Shape oldShape = lobby.Canvas.Shapes[updatedShape.ID];
 
-            if (((user.OverridePermissions & 1) != (updatedShape.OverrideUserPolicy & 1)) || updatedShape.Owner == user)
+            if (((user.OverridePermissions & 1) != (oldShape.OverrideUserPolicy & 1)) || oldShape.Owner == user)
             {
                 oldShape.UpdateWithNewShape(updatedShape);
 

@@ -8,6 +8,10 @@ using System.Data;
 
 namespace csharp_08
 {
+
+    public enum ShapeCode : byte { Line = 1, Pencil, Circle, Text, Polygon, Point };
+
+
     public class ConnectionHub : Hub
     {
         public override async Task OnConnectedAsync()
@@ -55,7 +59,7 @@ namespace csharp_08
 
             foreach (Shape shape in lobby.Canvas.Shapes.Values)
             {
-                await Clients.Caller.SendAsync("newShape", shape.GetType().Name, shape);
+                await Clients.Caller.SendAsync("newShape", shape.GetShapeCode(), shape);
             }
         }
 
@@ -71,17 +75,17 @@ namespace csharp_08
             await Clients.Group(lobby.GroupName).SendAsync("drawers", JsonConvert.SerializeObject(lobby.Drawers));
         }
 
-        private static Shape GetShapeFromJSON(string shapeType, string newShape)
+        private static Shape GetShapeFromJSON(byte shapeType, string newShape)
         {
             switch (shapeType)
             {
-                case "Line":
+                case (byte)ShapeCode.Line:
                     return JsonConvert.DeserializeObject<Line>(newShape);
-                case "Pencil":
+                case (byte)ShapeCode.Pencil:
                     return JsonConvert.DeserializeObject<Pencil>(newShape);
-                case "Circle":
+                case (byte)ShapeCode.Circle:
                     return JsonConvert.DeserializeObject<Circle>(newShape);
-                case "Text":
+                case (byte)ShapeCode.Text:
                     return JsonConvert.DeserializeObject<Text>(newShape);
                 default:
                     Debug.WriteLine("not done yet");
@@ -95,7 +99,7 @@ namespace csharp_08
             string id = Context.ConnectionId;
             Lobby lobby = Lobby.Lobbies[User.Users[id].Lobby];
 
-            Shape shape = GetShapeFromJSON(shapeType, newShape);
+            Shape shape = GetShapeFromJSON(byte.Parse(shapeType), newShape);
             shape.Owner = User.Users[id];
             lobby.Canvas.Shapes.Add(shape.ID, shape);
 
@@ -107,7 +111,7 @@ namespace csharp_08
             string id = Context.ConnectionId;
             User user = User.Users[id];
             Lobby lobby = Lobby.Lobbies[user.Lobby];
-            Shape updatedShape = GetShapeFromJSON(shapeType, newShape);
+            Shape updatedShape = GetShapeFromJSON(byte.Parse(shapeType), newShape);
             Shape oldShape = lobby.Canvas.Shapes[updatedShape.ID];
 
             if (((user.OverridePermissions & 1) != (oldShape.OverrideUserPolicy & 1)) || oldShape.Owner == user)
@@ -127,10 +131,10 @@ namespace csharp_08
             string id = Context.ConnectionId;
             User user = User.Users[id];
             Lobby lobby = Lobby.Lobbies[user.Lobby];
-            Shape deletedShape = GetShapeFromJSON(shapeType, shape);
+            Shape deletedShape = GetShapeFromJSON(byte.Parse(shapeType), shape);
             deletedShape = lobby.Canvas.Shapes[deletedShape.ID];
 
-            if ((user.OverridePermissions >> 1 != deletedShape.OverrideUserPolicy >> 1) || deletedShape.Owner == user) 
+            if ((user.OverridePermissions >> 1 != deletedShape.OverrideUserPolicy >> 1) || deletedShape.Owner == user)
             {
                 lobby.Canvas.Shapes.Remove(deletedShape.ID);
 

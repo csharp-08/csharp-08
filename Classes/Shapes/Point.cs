@@ -18,5 +18,10 @@ namespace csharp_08
         {
             return JsonConvert.SerializeObject(this);
         }
+
+        public override byte GetShapeCode()
+        {
+            return (byte)ShapeCode.Point;
+        }
     }
 }

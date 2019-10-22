@@ -20,7 +20,8 @@ namespace csharp_08
                 Debug.WriteLine("AAAAAA");
                 this.ID = IDs;
                 IDs++;
-            } else
+            }
+            else
             {
                 Debug.WriteLine("BBBBBB");
                 this.ID = ID;
@@ -31,7 +32,8 @@ namespace csharp_08
             if (Config == null)
             {
                 this.Config = ShapeConfig.DefaultConfig;
-            } else
+            }
+            else
             {
                 this.Config = Config;
             }
@@ -68,5 +70,7 @@ namespace csharp_08
             this.Vertices = updatedShape.Vertices;
             this.Config = updatedShape.Config;
         }
+
+        public abstract byte GetShapeCode();
     }
 }

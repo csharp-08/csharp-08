@@ -95,17 +95,17 @@ namespace csharp_08
             switch (shapeType)
             {
                 case (byte)ShapeCode.Line:
-                    return JsonConvert.DeserializeObject<Line>(newShape);
+                    return JsonConvert.DeserializeObject<Line>(newShape, new ColorJsonConverter());
                 case (byte)ShapeCode.Pencil:
-                    return JsonConvert.DeserializeObject<Pencil>(newShape);
+                    return JsonConvert.DeserializeObject<Pencil>(newShape, new ColorJsonConverter());
                 case (byte)ShapeCode.Circle:
-                    return JsonConvert.DeserializeObject<Circle>(newShape);
+                    return JsonConvert.DeserializeObject<Circle>(newShape, new ColorJsonConverter());
                 case (byte)ShapeCode.Text:
-                    return JsonConvert.DeserializeObject<Text>(newShape);
+                    return JsonConvert.DeserializeObject<Text>(newShape, new ColorJsonConverter());
                 case (byte)ShapeCode.Polygon:
-                    return JsonConvert.DeserializeObject<Polygon>(newShape);
+                    return JsonConvert.DeserializeObject<Polygon>(newShape, new ColorJsonConverter());
                 case (byte)ShapeCode.Point:
-                    return JsonConvert.DeserializeObject<Point>(newShape);
+                    return JsonConvert.DeserializeObject<Point>(newShape, new ColorJsonConverter());
                 default:
                     Debug.WriteLine("not done yet");
                     return null;

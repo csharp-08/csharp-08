@@ -15,8 +15,4 @@
     <PackageReference Include="sqlite-net-pcl" Version="1.6.292" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.111" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Classes\Utils\" />
-  </ItemGroup>
 </Project>

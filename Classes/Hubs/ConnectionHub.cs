@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SQLite;
 using System;
+using csharp_08.Utils;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -78,144 +79,29 @@ namespace csharp_08
             }
         }
 
-        private static Shape GetShapeFromJSON(byte shapeType, string newShape)
-        {
-            switch (shapeType)
-            {
-                case (byte)ShapeCode.Line:
-                    return JsonConvert.DeserializeObject<Line>(newShape, new ColorJsonConverter());
-
-                case (byte)ShapeCode.Pencil:
-                    return JsonConvert.DeserializeObject<Pencil>(newShape, new ColorJsonConverter());
-
-                case (byte)ShapeCode.Circle:
-                    return JsonConvert.DeserializeObject<Circle>(newShape, new ColorJsonConverter());
-
-                case (byte)ShapeCode.Text:
-                    return JsonConvert.DeserializeObject<Text>(newShape, new ColorJsonConverter());
-
-                case (byte)ShapeCode.Polygon:
-                    return JsonConvert.DeserializeObject<Polygon>(newShape, new ColorJsonConverter());
-
-                case (byte)ShapeCode.Point:
-                    return JsonConvert.DeserializeObject<Point>(newShape, new ColorJsonConverter());
-
-                default:
-                    Debug.WriteLine("not done yet");
-                    return null;
-            }
-        }
-
         public async Task AddShape(string shapeType, string newShape)
         {
-            string id = Context.ConnectionId;
-            string sessionId = User.ConnectionIdSessionIdTranslationTable[id];
-
-            Lobby lobby = Lobby.Lobbies[User.Users[sessionId].Lobby];
-
-            Shape shape = GetShapeFromJSON(byte.Parse(shapeType), newShape);
-            shape.Owner = User.Users[sessionId];
-            lobby.Canvas.Shapes.Add(shape.ID, shape);
-
-            lobby.Canvas.Serialize();
-            SQLiteConnection db = new SQLiteConnection("database.db");
-            db.Update(lobby.Canvas);
-
-            await Clients.Group(lobby.GroupName).SendAsync("newShape", shapeType, shape);
+            await ShapeUtils.AddShape(Context, Clients, shapeType, newShape);
         }
 
         public async Task UpdateShape(string shapeType, string newShape)
         {
-            string id = Context.ConnectionId;
-            string sessionId = User.ConnectionIdSessionIdTranslationTable[id];
-
-            User user = User.Users[sessionId];
-            Lobby lobby = Lobby.Lobbies[user.Lobby];
-            Shape updatedShape = GetShapeFromJSON(byte.Parse(shapeType), newShape);
-            Shape oldShape = lobby.Canvas.Shapes[updatedShape.ID];
-
-            if (((oldShape.Owner.OverridePermissions & 1) != (oldShape.OverrideUserPolicy & 1)) || oldShape.Owner == user)
-            {
-                oldShape.UpdateWithNewShape(updatedShape);
-
-                lobby.Canvas.Serialize();
-                SQLiteConnection db = new SQLiteConnection("database.db");
-                db.Insert(lobby.Canvas);
-
-                await Clients.Group(lobby.GroupName).SendAsync("updateShape", shapeType, oldShape);
-            }
-            else
-            {
-                await Clients.Caller.SendAsync("updateShape", null, null);
-            }
+            await ShapeUtils.UpdateShape(Context, Clients, shapeType, newShape);
         }
 
-        public async Task DeleteShape(string shapeIDstring)
+        public async Task DeleteShape(string shapeIDString)
         {
-            string id = Context.ConnectionId;
-            string sessionId = User.ConnectionIdSessionIdTranslationTable[id];
-
-            uint shapeID = uint.Parse(shapeIDstring);
-            User user = User.Users[sessionId];
-            Lobby lobby = Lobby.Lobbies[user.Lobby];
-            var deletedShape = lobby.Canvas.Shapes[shapeID];
-
-            if ((deletedShape.Owner.OverridePermissions >> 1 != deletedShape.OverrideUserPolicy >> 1) || deletedShape.Owner == user)
-            {
-                lobby.Canvas.Shapes.Remove(deletedShape.ID);
-
-                lobby.Canvas.Serialize();
-                SQLiteConnection db = new SQLiteConnection("database.db");
-                db.Update(lobby.Canvas);
-
-                await Clients.Group(lobby.GroupName).SendAsync("deleteShape", deletedShape.ID);
-            }
-            else
-            {
-                await Clients.Caller.SendAsync("deleteShape", null);
-            }
+            await ShapeUtils.DeleteShape(Context, Clients, shapeIDString);
         }
 
-        public async Task UpdateShapePermission(string shapeIDstring, string permission)
+        public async Task UpdateShapePermission(string shapeIDString, string permission)
         {
-            string id = Context.ConnectionId;
-            string sessionId = User.ConnectionIdSessionIdTranslationTable[id];
-
-            uint shapeID = uint.Parse(shapeIDstring);
-            byte newPermission = byte.Parse(permission);
-            User user = User.Users[sessionId];
-            Lobby lobby = Lobby.Lobbies[user.Lobby];
-            var Shape = lobby.Canvas.Shapes[shapeID];
-
-            if (Shape.Owner == user)
-            {
-                Shape.OverrideUserPolicy = newPermission;
-
-                SQLiteConnection db = new SQLiteConnection("database.db");
-                db.Update(lobby.Canvas);
-
-                await Clients.Group(lobby.GroupName).SendAsync("newShapePermission", Shape.ID, Shape.OverrideUserPolicy);
-            }
-            else
-            {
-                await Clients.Caller.SendAsync("newShapePermission", null, null);
-            }
+            await ShapeUtils.UpdateShapePermission(Context, Clients, shapeIDString, permission); ;
         }
 
         public async Task UpdateUserPermission(string permission)
         {
-            string id = Context.ConnectionId;
-            string sessionId = User.ConnectionIdSessionIdTranslationTable[id];
-
-            User user = User.Users[sessionId];
-            Lobby lobby = Lobby.Lobbies[user.Lobby];
-            byte newPermission = byte.Parse(permission);
-            user.OverridePermissions = newPermission;
-
-            SQLiteConnection db = new SQLiteConnection("database.db");
-            db.Update(user);
-
-            await Clients.Group(lobby.GroupName).SendAsync("newUserPermission", sessionId, newPermission);
+            await UserUtils.UpdateUserPermission(Context, Clients, permission);
         }
     }
 }

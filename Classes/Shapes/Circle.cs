@@ -14,6 +14,7 @@ namespace csharp_08
                 throw new NegativeRadiusException();
 
             this.Radius = Radius;
+            this.Code = ShapeCode.Circle;
         }
 
         public override string ToString()

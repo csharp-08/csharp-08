@@ -14,6 +14,7 @@ namespace csharp_08
         {
             this.InnerText = InnerText;
             this.FontSize = FontSize;
+            this.Code = ShapeCode.Text;
         }
 
         public override string ToString()

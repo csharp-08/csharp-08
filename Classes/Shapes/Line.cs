@@ -8,6 +8,7 @@ namespace csharp_08
     {
         public Line(List<Tuple<double, double>> Vertices, User Owner, ShapeConfig Config, uint ID) : base(Vertices, Owner, Config, ID)
         {
+            this.Code = ShapeCode.Line;
         }
 
         public override string ToString()

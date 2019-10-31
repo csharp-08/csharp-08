@@ -59,9 +59,9 @@ namespace csharp_08
             {
                 return Color.Empty;
             }
-            if (value.Length != 7)
+            if (value.Length != 7 && !value.StartsWith("#", StringComparison.Ordinal))
             {
-                throw new FormatException($"Unable to convert '{value}' to a Color. Requires string length of 7 including the leading hashtag.");
+                return Color.FromName(value);
             }
 
             int red = HexToInt(value.Substring(1, 2));

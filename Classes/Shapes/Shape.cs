@@ -52,8 +52,7 @@ namespace csharp_08
             {
                 str += "\n\tx: " + point.Item1 + ", y: " + point.Item2;
             }
-            str += "\nÉpaisseur: " + Config.Thickness;
-            str += "\nCouleur: " + Config.Color.ToString();
+            str += "\nConfig: " + Config;
 
             return str;
         }

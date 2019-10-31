@@ -5,8 +5,8 @@ namespace csharp_08
 {
     public abstract class Shape
     {
-        private static uint IDs = 0;
-        public uint ID { get; private set; }
+        private static uint IDs = 1;
+        public uint ID { get; set; }
         public List<Tuple<double, double>> Vertices { get; private set; }
         public ShapeConfig Config { get; private set; }
         public User Owner { get; set; }

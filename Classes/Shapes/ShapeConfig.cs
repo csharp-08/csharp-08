@@ -14,7 +14,7 @@ namespace csharp_08
         public double Rotation { get; private set; }
         public bool IsEmpty { get; private set; }
 
-        public ShapeConfig(int Thickness = 10, Color Color = new Color(), Color BorderColor = new Color(), 
+        public ShapeConfig(int Thickness = 10, Color Color = new Color(), Color BorderColor = new Color(),
                            double OffsetX = 0, double OffsetY = 0, double ScaleX = 1,
                            double ScaleY = 1, double Rotate = 0, bool IsEmpty = false)
         {

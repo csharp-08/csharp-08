@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using System.Data.SQLite;
 using System.Diagnostics;
+using System.IO;
 
 namespace csharp_08
 {
@@ -38,7 +32,6 @@ namespace csharp_08
                 db.Close();
             }
             Debug.WriteLine("Database created !");
-
 
             CreateWebHostBuilder(args).Build().Run();
         }

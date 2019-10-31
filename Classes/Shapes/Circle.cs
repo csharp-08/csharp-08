@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace csharp_08
 {
     public class Circle : Shape
     {
         public double Radius { get; private set; }
+
         public Circle(List<Tuple<double, double>> Vertices, User Owner, double Radius, ShapeConfig Config, uint ID) : base(Vertices, Owner, Config, ID)
         {
             if (Radius < 0)
@@ -42,6 +43,5 @@ namespace csharp_08
         {
             return (byte)ShapeCode.Circle;
         }
-
     }
 }

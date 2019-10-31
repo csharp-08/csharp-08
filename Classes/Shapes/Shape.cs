@@ -1,29 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace csharp_08
 {
     public abstract class Shape
     {
-        private static uint IDs = 1;
+        private static uint IDs = 0;
         public uint ID { get; private set; }
         public List<Tuple<double, double>> Vertices { get; private set; }
         public ShapeConfig Config { get; private set; }
         public User Owner { get; set; }
         public byte OverrideUserPolicy { get; set; }
+        public ShapeCode Code;
 
         protected Shape(List<Tuple<double, double>> Vertices, User Owner = null, ShapeConfig Config = null, uint ID = 0)
         {
             if (ID == 0)
             {
-                Debug.WriteLine("AAAAAA");
                 this.ID = IDs;
                 IDs++;
             }
             else
             {
-                Debug.WriteLine("BBBBBB");
                 this.ID = ID;
             }
 
@@ -38,6 +36,7 @@ namespace csharp_08
                 this.Config = Config;
             }
 
+            this.Code = ShapeCode.Pencil;
             this.OverrideUserPolicy = 0;
         }
 
@@ -71,5 +70,10 @@ namespace csharp_08
         }
 
         public abstract byte GetShapeCode();
+
+        public static void UpdateStartPoint(uint StartPoint)
+        {
+            IDs = StartPoint > IDs ? StartPoint : IDs;
+        }
     }
 }

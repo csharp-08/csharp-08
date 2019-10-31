@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
+using SQLite;
 using System;
-using System.Data.SQLite;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -15,8 +15,7 @@ namespace csharp_08
         {
             Debug.WriteLine("New connection ...");
             // Connect to local DB
-            SQLiteConnection db = new SQLiteConnection("Data Source=database.db;Version=3;");
-            db.Open();
+            SQLiteConnection db = new SQLiteConnection("database.db");
 
             string id = Context.ConnectionId;
             string username = Context.GetHttpContext().Request.Query["username"];
@@ -28,57 +27,28 @@ namespace csharp_08
             if (!Lobby.Lobbies.TryGetValue(group, out var lobby))
             {
                 lobby = new Lobby(group);
-                /*
-                SQLiteCommand lobbySQL = new SQLiteCommand("INSERT INTO Lobbies VALUES (@name, @canvasId)", db);
-                lobbySQL.Parameters.Add(new SQLiteParameter("@name", DbType.String));
-                lobbySQL.Parameters.Add(new SQLiteParameter("@canvasId", DbType.Int32));
-                lobbySQL.Parameters["@name"].Value = lobby.GroupName;
-                lobbySQL.Parameters["@canvasId"].Value = lobby.Canvas.Id;
 
-                SQLiteCommand canvasSQL = new SQLiteCommand("INSERT INTO Canvas VALUES (@id, @data)", db);
-                canvasSQL.Parameters.Add(new SQLiteParameter("@id", DbType.Int32));
-                canvasSQL.Parameters.Add(new SQLiteParameter("@data", DbType.String));
-                canvasSQL.Parameters["@id"].Value = lobby.Canvas.Id;
-                canvasSQL.Parameters["@data"].Value = "{ }";
-
-                lobbySQL.ExecuteNonQuery();
-                canvasSQL.ExecuteNonQuery();
-                */
+                db.Insert(lobby);
+                db.Insert(lobby.Canvas);
             }
 
             User user;
+
             // Create user
             if (sessionId != null)
             {
                 user = User.Users[sessionId];
                 user.ConnectionId = id;
                 User.ConnectionIdSessionIdTranslationTable.Add(user.ConnectionId, user.SessionId);
+                db.Update(user);
             }
             else
             {
                 user = new User(id, username, group);
+                db.Insert(user);
             }
             await Groups.AddToGroupAsync(user.ConnectionId, group);
             lobby.AddUser(user);
-
-            /*
-            // Insert user into the table "Users"
-            SQLiteCommand userSQL = new SQLiteCommand("INSERT INTO Users VALUES (@id, @username, @lobby, @permissions)", db);
-            userSQL.Parameters.Add(new SQLiteParameter("@id", DbType.String));
-            userSQL.Parameters.Add(new SQLiteParameter("@username", DbType.String));
-            userSQL.Parameters.Add(new SQLiteParameter("@lobby", DbType.String));
-            userSQL.Parameters.Add(new SQLiteParameter("@permissions", DbType.Int32));
-            userSQL.Parameters["@id"].Value = user.SessionId;
-            userSQL.Parameters["@username"].Value = user.Username;
-            userSQL.Parameters["@lobby"].Value = user.Lobby;
-            userSQL.Parameters["@permissions"].Value = user.OverridePermissions;
-
-            int affected = userSQL.ExecuteNonQuery();
-            Debug.WriteLine(affected);
-            */
-
-            // Close connection to the database
-            db.Close();
 
             await Clients.Caller.SendAsync("ID", user.SessionId);
             await Clients.Group(group).SendAsync("drawers", JsonConvert.SerializeObject(lobby.Drawers));
@@ -129,7 +99,7 @@ namespace csharp_08
 
                 case (byte)ShapeCode.Point:
                     return JsonConvert.DeserializeObject<Point>(newShape, new ColorJsonConverter());
-                    
+
                 default:
                     Debug.WriteLine("not done yet");
                     return null;
@@ -147,6 +117,10 @@ namespace csharp_08
             shape.Owner = User.Users[sessionId];
             lobby.Canvas.Shapes.Add(shape.ID, shape);
 
+            lobby.Canvas.Serialize();
+            SQLiteConnection db = new SQLiteConnection("database.db");
+            db.Update(lobby.Canvas);
+
             await Clients.Group(lobby.GroupName).SendAsync("newShape", shapeType, shape);
         }
 
@@ -163,6 +137,10 @@ namespace csharp_08
             if (((oldShape.Owner.OverridePermissions & 1) != (oldShape.OverrideUserPolicy & 1)) || oldShape.Owner == user)
             {
                 oldShape.UpdateWithNewShape(updatedShape);
+
+                lobby.Canvas.Serialize();
+                SQLiteConnection db = new SQLiteConnection("database.db");
+                db.Insert(lobby.Canvas);
 
                 await Clients.Group(lobby.GroupName).SendAsync("updateShape", shapeType, oldShape);
             }
@@ -185,6 +163,11 @@ namespace csharp_08
             if ((deletedShape.Owner.OverridePermissions >> 1 != deletedShape.OverrideUserPolicy >> 1) || deletedShape.Owner == user)
             {
                 lobby.Canvas.Shapes.Remove(deletedShape.ID);
+
+                lobby.Canvas.Serialize();
+                SQLiteConnection db = new SQLiteConnection("database.db");
+                db.Update(lobby.Canvas);
+
                 await Clients.Group(lobby.GroupName).SendAsync("deleteShape", deletedShape.ID);
             }
             else
@@ -207,6 +190,10 @@ namespace csharp_08
             if (Shape.Owner == user)
             {
                 Shape.OverrideUserPolicy = newPermission;
+
+                SQLiteConnection db = new SQLiteConnection("database.db");
+                db.Update(lobby.Canvas);
+
                 await Clients.Group(lobby.GroupName).SendAsync("newShapePermission", Shape.ID, Shape.OverrideUserPolicy);
             }
             else
@@ -218,11 +205,17 @@ namespace csharp_08
         public async Task UpdateUserPermission(string permission)
         {
             string id = Context.ConnectionId;
-            User user = User.Users[id];
+            string sessionId = User.ConnectionIdSessionIdTranslationTable[id];
+
+            User user = User.Users[sessionId];
             Lobby lobby = Lobby.Lobbies[user.Lobby];
             byte newPermission = byte.Parse(permission);
             user.OverridePermissions = newPermission;
-            await Clients.Group(lobby.GroupName).SendAsync("newUserPermission", id, newPermission);
+
+            SQLiteConnection db = new SQLiteConnection("database.db");
+            db.Update(user);
+
+            await Clients.Group(lobby.GroupName).SendAsync("newUserPermission", sessionId, newPermission);
         }
     }
 }

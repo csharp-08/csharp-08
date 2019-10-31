@@ -8,6 +8,7 @@ namespace csharp_08
     {
         public Polygon(List<Tuple<double, double>> Vertices, User Owner, ShapeConfig Config, uint ID) : base(Vertices, Owner, Config, ID)
         {
+            this.Code = ShapeCode.Polygon;
         }
 
         public override string ToString()

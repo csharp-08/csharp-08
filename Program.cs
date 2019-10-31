@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using System.Data.SQLite;
+using SQLite;
 using System.Diagnostics;
-using System.IO;
 
 namespace csharp_08
 {
@@ -14,26 +13,38 @@ namespace csharp_08
 
             Debug.WriteLine("Creating Database (if not exists) ...");
 
-            // Create file if not exists
-            if (!File.Exists("database.db"))
-            {
-                SQLiteConnection.CreateFile("database.db");
-                SQLiteConnection db = new SQLiteConnection("Data Source=database.db;Version=3;");
-                db.Open();
+            SQLiteConnection db = new SQLiteConnection("database.db");
 
-                SQLiteCommand lobbys = new SQLiteCommand("CREATE TABLE Canvas (id INT PRIMARY KEY NOT NULL, data TEXT)", db);
-                SQLiteCommand canvas = new SQLiteCommand("CREATE TABLE Lobbies (name VARCHAR(255) PRIMARY KEY NOT NULL, canvasId INT)", db);
-                SQLiteCommand users = new SQLiteCommand("CREATE TABLE Users (id VARCHAR(255) PRIMARY KEY NOT NULL, username VARCHAR(255), lobby VARCHAR(255), overridePermisions INT)", db);
+            db.CreateTable<User>();
+            db.CreateTable<Lobby>();
+            db.CreateTable<Canvas>();
 
-                canvas.ExecuteNonQuery();
-                lobbys.ExecuteNonQuery();
-                users.ExecuteNonQuery();
-
-                db.Close();
-            }
-            Debug.WriteLine("Database created !");
+            RetrieveDataFromDatabase(db);
 
             CreateWebHostBuilder(args).Build().Run();
+        }
+
+        public static void RetrieveDataFromDatabase(SQLiteConnection db)
+        {
+            TableQuery<Lobby> lobbies = db.Table<Lobby>();
+            uint LastCanvasID = 0;
+            foreach (Lobby lobby in lobbies)
+            {
+                Lobby.Lobbies.Add(lobby.GroupName, lobby);
+                lobby.Canvas = db.Table<Canvas>().Where(canvas => canvas.Id == lobby.CanvasId).First();
+
+                if (lobby.Canvas.SerializedShapes != null)
+                    lobby.Canvas.Deserialize();
+
+                LastCanvasID = (lobby.CanvasId > LastCanvasID) ? lobby.CanvasId : LastCanvasID;
+            }
+            Canvas.SetIdStartPoint(LastCanvasID + 1);
+
+            TableQuery<User> users = db.Table<User>();
+            foreach (User user in users)
+            {
+                User.Users.Add(user.SessionId, user);
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

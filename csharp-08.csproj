@@ -16,6 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Classes\util\" />
+    <Folder Include="Classes\utils\" />
   </ItemGroup>
 </Project>

@@ -58,6 +58,7 @@ namespace csharp_08
             {
                 await Clients.Caller.SendAsync("newShape", shape.GetShapeCode(), shape);
             }
+            await Clients.Caller.SendAsync("newBgColor", lobby.Canvas.BackgroundColor);
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
@@ -102,6 +103,22 @@ namespace csharp_08
         public async Task UpdateUserPermission(string permission)
         {
             await UserUtils.UpdateUserPermission(Context, Clients, permission);
+        }
+
+        public async Task UpdateBackgroundColor(string color)
+        {
+            // Connect to local DB
+            SQLiteConnection db = new SQLiteConnection("database.db");
+
+            string id = Context.ConnectionId;
+            string sessionId = User.ConnectionIdSessionIdTranslationTable[id];
+
+            Lobby lobby = Lobby.Lobbies[User.Users[sessionId].Lobby];
+            Canvas canvas = lobby.Canvas;
+            canvas.BackgroundColor = color;
+            db.Update(canvas);
+
+            await Clients.Group(lobby.GroupName).SendAsync("newBgColor", color);
         }
     }
 }

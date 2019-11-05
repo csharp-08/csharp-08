@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
-using System.Diagnostics;
-using Microsoft.AspNetCore.SignalR;
 using SQLite;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace csharp_08.Utils
 {
@@ -73,7 +70,7 @@ namespace csharp_08.Utils
 
                 lobby.Canvas.Serialize();
                 SQLiteConnection db = new SQLiteConnection("database.db");
-                db.Insert(lobby.Canvas);
+                db.Update(lobby.Canvas);
 
                 await Clients.Group(lobby.GroupName).SendAsync("updateShape", shapeType, oldShape);
             }

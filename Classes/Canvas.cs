@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using SQLite;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace csharp_08
 {
@@ -18,9 +19,13 @@ namespace csharp_08
         [MaxLength(100000)]
         public string SerializedShapes { get; set; }
 
+        [MaxLength(9)]
+        public string BackgroundColor { get; set; }
+
         public Canvas()
         {
             this.Shapes = new Dictionary<uint, Shape>();
+            BackgroundColor = "#ffffff";
             Id = IDs;
             IDs++;
         }

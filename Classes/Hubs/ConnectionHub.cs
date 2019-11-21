@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using SQLite;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -70,9 +71,32 @@ namespace csharp_08
             {
                 Lobby lobby = Lobby.Lobbies[User.Users[sessionId].Lobby];
                 lobby.Drawers.Remove(sessionId);
-
                 await base.OnDisconnectedAsync(exception);
                 await Clients.Group(lobby.GroupName).SendAsync("drawers", JsonConvert.SerializeObject(lobby.Drawers));
+                // executed in the background - we don't want to wait for it
+                var ignoredTask = Task.Delay(1000 * 60 * 5).ContinueWith(async t => {
+                    SQLiteConnection db = new SQLiteConnection("database.db");
+                    if (!lobby.Drawers.ContainsKey(sessionId)) // enable object edition and deletion
+                    {
+                        Debug.WriteLine("removing user policies...");
+                        foreach (KeyValuePair<uint, Shape> entry in lobby.Canvas.Shapes)
+                        {
+                            if (entry.Value.Owner == User.Users[sessionId])
+                            {
+                                entry.Value.OverrideUserPolicy = 0b11; // can edit and can delete
+                                await Clients.Group(lobby.GroupName).SendAsync("newShapePermission", entry.Value.ID, entry.Value.OverrideUserPolicy);
+                            }
+                        }
+                        db.Update(lobby.Canvas);
+                    }
+                    if (lobby.Drawers.Count == 0) // delete lobby after 10min without anyone in the lobby
+                    {
+                        Debug.WriteLine("removing lobby");
+                        Lobby.Lobbies.Remove(User.Users[sessionId].Lobby);
+                        db.Delete(lobby.Canvas);
+                        db.Delete(lobby);
+                    }
+                });
             }
             else
             {

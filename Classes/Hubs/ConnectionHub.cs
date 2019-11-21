@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 namespace csharp_08
 {
-    public enum ShapeCode : byte { Line = 1, Pencil, Circle, Text, Polygon, Point };
-
     public class ConnectionHub : Hub
     {
         public override async Task OnConnectedAsync()
@@ -107,18 +105,12 @@ namespace csharp_08
 
         public async Task UpdateBackgroundColor(string color)
         {
-            // Connect to local DB
-            SQLiteConnection db = new SQLiteConnection("database.db");
+            await ShapeUtils.UpdateBackgroundColor(Context, Clients, color);
+        }
 
-            string id = Context.ConnectionId;
-            string sessionId = User.ConnectionIdSessionIdTranslationTable[id];
-
-            Lobby lobby = Lobby.Lobbies[User.Users[sessionId].Lobby];
-            Canvas canvas = lobby.Canvas;
-            canvas.BackgroundColor = color;
-            db.Update(canvas);
-
-            await Clients.Group(lobby.GroupName).SendAsync("newBgColor", color);
+        public async Task GetSVG()
+        {
+            await ShapeUtils.GetSVG(Context, Clients);
         }
     }
 }

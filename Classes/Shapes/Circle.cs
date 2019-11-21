@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using csharp_08.Utils;
+using System.Globalization;
 
 namespace csharp_08
 {
@@ -43,6 +45,22 @@ namespace csharp_08
         public override byte GetShapeCode()
         {
             return (byte)ShapeCode.Circle;
+        }
+
+        public override string ToSVG()
+        {
+            return String.Format("<circle cx = \"{0}\" cy = \"{1}\" r = \"{2}\" stroke = \"{3}\" fill = \"{4}\" stroke-width = \"{5}\" transform = \"rotate({6}) translate({7} {8}) scale({9} {10})\"/>",
+                                Vertices[0].Item1,
+                                Vertices[0].Item2,
+                                Radius.ToString(CultureInfo.InvariantCulture.NumberFormat),
+                                ShapeUtils.ColorToHex(Config.BorderColor),
+                                Config.Color.IsEmpty ? "#00000000" : ShapeUtils.ColorToHex(Config.Color),
+                                Config.Thickness,
+                                Config.Rotation,
+                                Config.OffsetX,
+                                Config.OffsetY,
+                                Config.ScaleX == 0 ? 1 : Config.ScaleX,
+                                Config.ScaleY == 0 ? 1 : Config.ScaleY);
         }
     }
 }

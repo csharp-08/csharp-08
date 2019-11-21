@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using csharp_08.Utils;
 
 namespace csharp_08
 {
@@ -40,6 +41,28 @@ namespace csharp_08
             this.OverrideUserPolicy = 0;
         }
 
+        public abstract string Draw();
+
+        public abstract byte GetShapeCode();
+
+        public abstract string ToSVG();
+
+        public void UpdateWithNewShape(Shape updatedShape)
+        {
+            if (this.ID != updatedShape.ID)
+            {
+                return;
+            }
+
+            this.Vertices = updatedShape.Vertices;
+            this.Config = updatedShape.Config;
+        }
+
+        public static void UpdateStartPoint(uint StartPoint)
+        {
+            IDs = StartPoint > IDs ? StartPoint : IDs;
+        }
+
         public override string ToString()
         {
             string str = "";
@@ -54,26 +77,6 @@ namespace csharp_08
             str += "\nConfig: " + Config;
 
             return str;
-        }
-
-        public abstract string Draw();
-
-        public void UpdateWithNewShape(Shape updatedShape)
-        {
-            if (this.ID != updatedShape.ID)
-            {
-                return;
-            }
-
-            this.Vertices = updatedShape.Vertices;
-            this.Config = updatedShape.Config;
-        }
-
-        public abstract byte GetShapeCode();
-
-        public static void UpdateStartPoint(uint StartPoint)
-        {
-            IDs = StartPoint > IDs ? StartPoint : IDs;
         }
     }
 }

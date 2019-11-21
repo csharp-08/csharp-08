@@ -3,9 +3,13 @@ using Newtonsoft.Json;
 using SQLite;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Drawing;
+using System;
 
 namespace csharp_08.Utils
 {
+    public enum ShapeCode : byte { Line = 1, Pencil, Circle, Text, Polygon };
+
     public static class ShapeUtils
     {
         private static Shape GetShapeFromJSON(byte shapeType, string newShape)
@@ -26,9 +30,6 @@ namespace csharp_08.Utils
 
                 case (byte)ShapeCode.Polygon:
                     return JsonConvert.DeserializeObject<Polygon>(newShape, new ColorJsonConverter());
-
-                case (byte)ShapeCode.Point:
-                    return JsonConvert.DeserializeObject<Point>(newShape, new ColorJsonConverter());
 
                 default:
                     Debug.WriteLine("not done yet");
@@ -130,6 +131,38 @@ namespace csharp_08.Utils
             {
                 await Clients.Caller.SendAsync("newShapePermission", null, null);
             }
+        }
+
+        public static string ColorToHex(Color color)
+        {
+            return String.Format("#{0:X2}{1:X2}{2:X2}", color.R, color.G, color.B);
+        }
+
+        public static async Task UpdateBackgroundColor(HubCallerContext Context, IHubCallerClients Clients, string color)
+        {
+            // Connect to local DB
+            SQLiteConnection db = new SQLiteConnection("database.db");
+
+            string id = Context.ConnectionId;
+            string sessionId = User.ConnectionIdSessionIdTranslationTable[id];
+
+            Lobby lobby = Lobby.Lobbies[User.Users[sessionId].Lobby];
+            Canvas canvas = lobby.Canvas;
+            canvas.BackgroundColor = color;
+            db.Update(canvas);
+
+            await Clients.Group(lobby.GroupName).SendAsync("newBgColor", color);
+        }
+
+        public static async Task GetSVG(HubCallerContext Context, IHubCallerClients Clients)
+        {
+            string id = Context.ConnectionId;
+            string sessionId = User.ConnectionIdSessionIdTranslationTable[id];
+
+            User user = User.Users[sessionId];
+            Lobby lobby = Lobby.Lobbies[user.Lobby];
+
+            await Clients.Caller.SendAsync("SVG", lobby.Canvas.ToSVG());
         }
     }
 }

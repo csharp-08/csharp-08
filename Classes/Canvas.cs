@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using SQLite;
 using System.Collections.Generic;
 using System.Drawing;
+using csharp_08.Utils;
 
 namespace csharp_08
 {
@@ -71,10 +72,6 @@ namespace csharp_08
                         Shapes.Add(shape.Key, shape.Value.ToObject<Polygon>());
                         break;
 
-                    case ShapeCode.Point:
-                        Shapes.Add(shape.Key, shape.Value.ToObject<Point>());
-                        break;
-
                     default:
                         break;
                 }
@@ -82,6 +79,19 @@ namespace csharp_08
             }
 
             Shape.UpdateStartPoint(LastShapeId + 1);
+        }
+
+        public string ToSVG()
+        {
+            string svg = "<svg width=\"1920\" height=\"1080\">\n";
+
+            foreach (Shape shape in Shapes.Values)
+            {
+                svg += shape.ToSVG() + "\n";
+            }
+
+            svg += "</svg>";
+            return svg;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using csharp_08.Utils;
 
 namespace csharp_08
 {
@@ -30,6 +31,16 @@ namespace csharp_08
         public override byte GetShapeCode()
         {
             return (byte)ShapeCode.Text;
+        }
+
+        public override string ToSVG()
+        {
+            return String.Format("<text x=\"{0}\" y=\"{1}\" font-family=\"arial\" font-size=\"{2}\" fill=\"{3}\">{4}</text>",
+                                 Vertices[0].Item1,
+                                 Vertices[0].Item2,
+                                 FontSize,
+                                 Config.Color.IsEmpty ? "#00000000" : ShapeUtils.ColorToHex(Config.Color),
+                                 InnerText);
         }
     }
 }

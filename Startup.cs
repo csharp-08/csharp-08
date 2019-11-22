@@ -10,6 +10,7 @@ namespace csharp_08
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // create "CorsPolicy" options in development to accept other origin clients
             services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
             {
                 builder
@@ -18,6 +19,8 @@ namespace csharp_08
                     .AllowAnyOrigin()
                     .AllowCredentials();
             }));
+
+            // Use signalR library for websockets
             services.AddSignalR();
         }
 
@@ -29,12 +32,16 @@ namespace csharp_08
                 app.UseCors("CorsPolicy");
                 app.UseDeveloperExceptionPage();
             }
+
+            // Add signalR hub
             app.UseSignalR(routes =>
             {
                 routes.MapHub<ConnectionHub>("/ws-server");
             });
 
+            // Add static folder '/wwwroot' to serve the client
             app.UseFileServer();
+
 
             app.Run(async (context) =>
             {

@@ -9,8 +9,15 @@ using System.Threading.Tasks;
 
 namespace csharp_08
 {
+    /// <summary>
+    /// SignalR Hub class that handles websocket connections.
+    /// This class is instanciated by the signalR library and added as hub in startup.cs
+    /// </summary>
     public class ConnectionHub : Hub
     {
+        /// <summary>
+        /// Called when a new connection is established with the hub.
+        /// </summary>
         public override async Task OnConnectedAsync()
         {
             Debug.WriteLine("New connection ...");
@@ -60,6 +67,10 @@ namespace csharp_08
             await Clients.Caller.SendAsync("newBgColor", lobby.Canvas.BackgroundColor);
         }
 
+        /// <summary>
+        /// Called when a connection with the hub is terminated.
+        /// </summary>
+        /// <param name="exception"></param>
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             Debug.WriteLine("Disconnecting ...");
@@ -102,36 +113,73 @@ namespace csharp_08
             }
         }
 
+        /// <summary>
+        /// Called when a user wants to add a shape.
+        /// </summary>
+        /// <param name="shapeType">Shape type: </param>
+        /// <param name="newShape">JSON shape definition</param>
         public async Task AddShape(string shapeType, string newShape)
         {
             await ShapeUtils.AddShape(Context, Clients, shapeType, newShape);
         }
 
-        public async Task UpdateShape(string shapeType, string newShape)
+        /// <summary>
+        /// Called when a user wants to update a shape.
+        /// </summary>
+        /// <param name="shapeType">Shape type: </param>
+        /// <param name="updatedShape">JSON shape definition. Should contain ID to retrieve the shape to update.</param>
+        public async Task UpdateShape(string shapeType, string updatedShape)
         {
-            await ShapeUtils.UpdateShape(Context, Clients, shapeType, newShape);
+            await ShapeUtils.UpdateShape(Context, Clients, shapeType, updatedShape);
         }
 
+        /// <summary>
+        /// Called when a user wants to delete a shape.
+        /// </summary>
+        /// <param name="shapeIDString">Shape id</param>
         public async Task DeleteShape(string shapeIDString)
         {
             await ShapeUtils.DeleteShape(Context, Clients, shapeIDString);
         }
 
+        /// <summary>
+        /// Called when a user wants to update a shape permissions (edition and deletion).
+        /// </summary>
+        /// <param name="shapeIDString">Shape id</param>
+        /// <param name="permission">
+        ///     New permission: should be 2-bit string like '3' -> 0b11.
+        ///     First bit allows edition. Second bit allows deletion.
+        /// </param>
         public async Task UpdateShapePermission(string shapeIDString, string permission)
         {
             await ShapeUtils.UpdateShapePermission(Context, Clients, shapeIDString, permission); ;
         }
 
+        /// <summary>
+        /// Called when a user wants to update his permissions.
+        /// </summary>
+        /// <param name="permission">
+        ///     New permission: should be 2-bit string like '3' -> 0b11.
+        ///     First bit allows edition. Second bit allows deletion.
+        /// </param>
+        /// <returns></returns>
         public async Task UpdateUserPermission(string permission)
         {
             await UserUtils.UpdateUserPermission(Context, Clients, permission);
         }
 
+        /// <summary>
+        /// Called when a user wants to update the canvas background color.
+        /// </summary>
+        /// <param name="color">hex color</param>
         public async Task UpdateBackgroundColor(string color)
         {
             await ShapeUtils.UpdateBackgroundColor(Context, Clients, color);
         }
 
+        /// <summary>
+        /// Called when a user wants to download the canvas as SVG. 
+        /// </summary>
         public async Task GetSVG()
         {
             await ShapeUtils.GetSVG(Context, Clients);

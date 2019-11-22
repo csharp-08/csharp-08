@@ -12,7 +12,7 @@ namespace csharp_08
         ///     Determines whether this instance can convert the specified object type.
         ///     So return true if the given objectType is type of Color.
         /// </summary>
-        /// <param name="objectType"></param>
+        /// <param name="objectType">type of object in JSON to convert to</param>
         /// <returns>Boolean</returns>
         public override bool CanConvert(Type objectType)
         {
@@ -23,11 +23,11 @@ namespace csharp_08
         ///     Reads the JSON representation of the object.
         ///     Get object from the reader that should be a string of hex value and return the corresponding Color instance.
         /// </summary>
-        /// <param name="reader"></param>
-        /// <param name="objectType"></param>
+        /// <param name="reader">JSON data reader</param>
+        /// <param name="objectType">type to convert json value to</param>
         /// <param name="existingValue"></param>
         /// <param name="serializer"></param>
-        /// <returns></returns>
+        /// <returns>Color object</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             // Load token from stream
@@ -50,8 +50,8 @@ namespace csharp_08
         /// <summary>
         ///     Convert a hex string to Color Instance.
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <param name="value">hex string value</param>
+        /// <returns>Color</returns>
         private Color Convert(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -72,8 +72,8 @@ namespace csharp_08
         /// <summary>
         ///     Convert a string hex value to number.
         /// </summary>
-        /// <param name="hexValue"></param>
-        /// <returns></returns>
+        /// <param name="hexValue">string 2 bytes - hex value</param>
+        /// <returns>integer</returns>
         private int HexToInt(string hexValue)
         {
             if (hexValue.Length != 2)

@@ -5,11 +5,23 @@ using System.Globalization;
 
 namespace csharp_08
 {
+    /// <summary>
+    /// Class that describes a Circle object from the writeboard.
+    /// This class is heriting from the class Shape.
+    /// </summary>
     public class Circle : Shape
     {
         // Circle's Radius. Needs to be public for string to shape operations
         public double Radius { get; private set; }
 
+        /// <summary>
+        /// Constructor of the Circle object
+        /// </summary>
+        /// <param name="Vertices">The coordinates of the points that describe the center of the circle</param>
+        /// <param name="Owner">The user owning the Circle Object</param>
+        /// <param name="Radius">The radius of the circle</param>
+        /// <param name="Config">The graphical configuration of the circle</param>
+        /// <param name="ID">The unique id of the shape</param>
         public Circle(List<Tuple<double, double>> Vertices, User Owner, double Radius, ShapeConfig Config, uint ID) : base(Vertices, Owner, Config, ID)
         {
             if (Radius < 0)

@@ -4,8 +4,19 @@ using System.Collections.Generic;
 
 namespace csharp_08
 {
+    /// <summary>
+    /// Class that describes a polygon object from the writeboard.
+    /// This class is heriting from the class Shape.
+    /// </summary>
     public class Polygon : Shape
     {
+        /// <summary>
+        /// Constructor of the Polygon object
+        /// </summary>
+        /// <param name="Vertices">The coordinates of the points that describe the polygon</param>
+        /// <param name="Owner">The user owning the polygon</param>
+        /// <param name="Config">The graphical configuration of the polygon</param>
+        /// <param name="ID">The unique id of the shape</param>
         public Polygon(List<Tuple<double, double>> Vertices, User Owner, ShapeConfig Config, uint ID) : base(Vertices, Owner, Config, ID)
         {
             this.Code = ShapeCode.Polygon;

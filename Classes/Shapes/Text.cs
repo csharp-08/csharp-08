@@ -4,11 +4,24 @@ using System.Collections.Generic;
 
 namespace csharp_08
 {
+    /// <summary>
+    /// Class that describes a Text object from the writeboard.
+    /// This class is heriting from the class Shape.
+    /// </summary>
     public class Text : Shape
     {
         public string InnerText { get; private set; }
         public uint FontSize { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Vertices">The coordinates of the points that describe the location of the Text object</param>
+        /// <param name="Owner">The user owning the Text object</param>
+        /// <param name="InnerText">Text written in the Text object</param>
+        /// <param name="FontSize">Font size of the text</param>
+        /// <param name="Config">The graphical configuration of the text</param>
+        /// <param name="ID">The unique id of the shape</param>
         public Text(List<Tuple<double, double>> Vertices, User Owner, string InnerText, uint FontSize, ShapeConfig Config, uint ID) :
                base(Vertices, Owner, Config, ID)
         {

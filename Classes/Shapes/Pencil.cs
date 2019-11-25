@@ -4,8 +4,19 @@ using System.Collections.Generic;
 
 namespace csharp_08
 {
+    /// <summary>
+    /// Class that describes a pencil stroke object from the writeboard.
+    /// This class is heriting from the class Shape.
+    /// </summary>
     public class Pencil : Shape
     {
+        /// <summary>
+        /// Constructor of the Pencil object
+        /// </summary>
+        /// <param name="Vertices">The coordinates of the points that describe the pencil stroke</param>
+        /// <param name="Owner">The user owning the pencil stroke</param>
+        /// <param name="Config">The graphical configuration of the pencil stroke</param>
+        /// <param name="ID">The unique id of the shape</param>
         public Pencil(List<Tuple<double, double>> Vertices, User Owner, ShapeConfig Config, uint ID) : base(Vertices, Owner, Config, ID)
         {
             this.Code = ShapeCode.Pencil;

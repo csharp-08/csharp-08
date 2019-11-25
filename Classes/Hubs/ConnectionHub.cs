@@ -83,7 +83,8 @@ namespace csharp_08
                 await base.OnDisconnectedAsync(exception);
                 await Clients.Group(lobby.GroupName).SendAsync("drawers", JsonConvert.SerializeObject(lobby.Drawers));
                 // executed in the background - we don't want to wait for it
-                var ignoredTask = Task.Delay(1000 * 60 * 5).ContinueWith(async t => {
+                var ignoredTask = Task.Delay(1000 * 60 * 5).ContinueWith(async t =>
+                {
                     SQLiteConnection db = new SQLiteConnection("database.db");
                     if (!lobby.Drawers.ContainsKey(sessionId)) // enable object edition and deletion
                     {
@@ -178,7 +179,7 @@ namespace csharp_08
         }
 
         /// <summary>
-        /// Called when a user wants to download the canvas as SVG. 
+        /// Called when a user wants to download the canvas as SVG.
         /// </summary>
         public async Task GetSVG()
         {

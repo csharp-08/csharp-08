@@ -1,7 +1,7 @@
-﻿using System;
+using csharp_08.Utils;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
-using csharp_08.Utils;
 
 namespace csharp_08
 {

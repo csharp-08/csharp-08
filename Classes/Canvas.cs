@@ -1,9 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using csharp_08.Utils;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SQLite;
 using System.Collections.Generic;
-using System.Drawing;
-using csharp_08.Utils;
 
 namespace csharp_08
 {
@@ -23,6 +22,9 @@ namespace csharp_08
         [MaxLength(9)]
         public string BackgroundColor { get; set; }
 
+        /// <summary>
+        /// Create a new Canvas
+        /// </summary>
         public Canvas()
         {
             this.Shapes = new Dictionary<uint, Shape>();
@@ -31,16 +33,27 @@ namespace csharp_08
             IDs++;
         }
 
+        /// <summary>
+        /// Set the ID counter initial value to StartPoint.
+        /// It is very useful when retrieving canvas from the database.
+        /// </summary>
+        /// <param name="StartPoint">ID counter start point</param>
         public static void SetIdStartPoint(uint StartPoint)
         {
             IDs = StartPoint;
         }
 
+        /// <summary>
+        /// Serialize all the canvas' shapes in order to store them into the database
+        /// </summary>
         public void Serialize()
         {
             SerializedShapes = JsonConvert.SerializeObject(Shapes);
         }
 
+        /// <summary>
+        /// Deserialize data. Useful when retriecing data from the database
+        /// </summary>
         public void Deserialize()
         {
             Shapes = new Dictionary<uint, Shape>();
@@ -81,6 +94,10 @@ namespace csharp_08
             Shape.UpdateStartPoint(LastShapeId + 1);
         }
 
+        /// <summary>
+        /// Convert a Canvas into a SVG string that will be sent to the client
+        /// </summary>
+        /// <returns>A SVG formatted string</returns>
         public string ToSVG()
         {
             string svg = "<svg width=\"1920\" height=\"1080\">\n";

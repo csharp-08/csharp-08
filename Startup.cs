@@ -42,7 +42,6 @@ namespace csharp_08
             // Add static folder '/wwwroot' to serve the client
             app.UseFileServer();
 
-
             app.Run(async (context) =>
             {
             });

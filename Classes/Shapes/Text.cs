@@ -6,7 +6,7 @@ namespace csharp_08
 {
     public class Text : Shape
     {
-        public string InnerText;
+        public string InnerText { get; private set; }
         public uint FontSize { get; private set; }
 
         public Text(List<Tuple<double, double>> Vertices, User Owner, string InnerText, uint FontSize, ShapeConfig Config, uint ID) :

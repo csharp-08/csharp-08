@@ -19,6 +19,11 @@ namespace csharp_08
         public bool IsEmpty { get; private set; }
 
         /// <summary>
+        /// Default configuration of style for a shape.
+        /// </summary>
+        public static ShapeConfig DefaultConfig { get; } = new ShapeConfig(10, new Color(), Color.Black, 0, 0, 1, 1, 0, false);
+
+        /// <summary>
         /// Constructor of the ShapeConfig object.
         /// </summary>
         /// <param name="Thickness">The thickness of the shape's lines</param>
@@ -44,11 +49,6 @@ namespace csharp_08
             this.Rotation = Rotate;
             this.IsEmpty = IsEmpty;
         }
-
-        /// <summary>
-        /// Default configuration of style for a shape.
-        /// </summary>
-        public static ShapeConfig DefaultConfig { get; } = new ShapeConfig(10, new Color(), Color.Black, 0, 0, 1, 1, 0, false);
 
         /// <summary>
         /// ToString function which describes the object with a string

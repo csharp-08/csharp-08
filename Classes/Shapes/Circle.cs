@@ -7,6 +7,7 @@ namespace csharp_08
 {
     public class Circle : Shape
     {
+        // Circle's Radius. Needs to be public for string to shape operations
         public double Radius { get; private set; }
 
         public Circle(List<Tuple<double, double>> Vertices, User Owner, double Radius, ShapeConfig Config, uint ID) : base(Vertices, Owner, Config, ID)

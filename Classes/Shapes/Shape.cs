@@ -1,6 +1,7 @@
 ﻿using csharp_08.Utils;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace csharp_08
 {
@@ -10,7 +11,10 @@ namespace csharp_08
     public abstract class Shape
     {
         private static uint IDs = 1;
+
+        // Shape ID. Needs to be public to retrieve shape from the database on reboot
         public uint ID { get; set; }
+
         public List<Tuple<double, double>> Vertices { get; private set; }
         public ShapeConfig Config { get; private set; }
         public User Owner { get; set; }

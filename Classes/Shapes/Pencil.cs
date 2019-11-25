@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using csharp_08.Utils;
 
@@ -15,11 +14,6 @@ namespace csharp_08
         public override string ToString()
         {
             return "Forme: Forme Libre\n" + base.ToString();
-        }
-
-        public override string Draw()
-        {
-            return JsonConvert.SerializeObject(this);
         }
 
         public override byte GetShapeCode()

@@ -1,8 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using csharp_08.Utils;
 using System.Globalization;
+using csharp_08.Utils;
 
 namespace csharp_08
 {
@@ -35,11 +34,6 @@ namespace csharp_08
             str += "\nCouleur: " + Config.Color.ToString();
 
             return str;
-        }
-
-        public override string Draw()
-        {
-            return JsonConvert.SerializeObject(this);
         }
 
         public override byte GetShapeCode()

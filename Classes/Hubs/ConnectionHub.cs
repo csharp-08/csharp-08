@@ -84,7 +84,7 @@ namespace csharp_08
                 await Clients.Group(lobby.GroupName).SendAsync("drawers", JsonConvert.SerializeObject(lobby.Drawers));
                 IHubCallerClients outContextClients = Clients;
                 // executed in the background - we don't want to wait for it
-                var ignoredTask = Task.Delay(1000 * 30).ContinueWith(async t =>
+                var ignoredTask = Task.Delay(1000 * 60 * 5).ContinueWith(async t =>
                 {
                     SQLiteConnection db = new SQLiteConnection("database.db");
                     if (!lobby.Drawers.ContainsKey(sessionId)) // enable object edition and deletion

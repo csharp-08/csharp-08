@@ -35,3 +35,5 @@ On utilise des websockets pour la communication entre les clients et le serveur.
 Enfin, nous avons décidé d'utiliser la librairie [SignalR](https://dotnet.microsoft.com/apps/aspnet/signalr) développée par Microsoft pour implémenter les websockets a la fois coté serveur et coté client. Cette librairie nous permet de ne pas réinventer la roue et d'accélerer le développement de nos fonctionnalitées souhaitées.   
 
 ## Diagramme de classes
+
+![Diagramme de classes](doc/classes.png)

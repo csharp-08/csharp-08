@@ -18,7 +18,8 @@ Nous avons réalisé un whiteboard collaboratif qui fonctionne en application WE
 ### Packages nugget
 Voici la liste des packets nuggets qui sont nécessaires pour le fonctionnement du projet. Ils sont normalement installés au lancement de la solution par visual studio.
 ```
-Microsoft.AspNetCore.App                                                                                                           Microsoft.AspNetCore.Razor.Design
+Microsoft.AspNetCore.App
+Microsoft.AspNetCore.Razor.Design
 Newtonsoft.Json
 sqlite-net-pcl
 System.Data.SQLite

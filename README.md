@@ -36,4 +36,4 @@ Enfin, nous avons décidé d'utiliser la librairie [SignalR](https://dotnet.micr
 
 ## Diagramme de classes
 
-![Diagramme de classes](doc/classes.png)
+![Diagramme de classes](docs/classes.png)

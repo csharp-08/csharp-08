@@ -43,7 +43,34 @@ Le client est alors accessible à l'adresse https://localhost:8080.
 
 ## Fonctionnalitées
 
-// TODO
+-  Connexion au Dashboard
+   - Création d'un salon de dessin.
+   - Connexion et déconnexion d'un salon existant à partir du nom du salon.
+   - Connection automatique à la session précédente.
+   - Choix d'un nom d'utilisateur.
+   - Gestion des problèmes de connexion.
+   - Liste des utilisateurs connectés accessibles en survolant le nom d'utilisateur dans la barre d'édition.
+- Dessin de formes
+   - Dessin de différentes formes géométriques (Ligne, cercle, polygone, ...)
+   - Écriture de texte et tracé libre possible.
+   - Choix de l'épaisseur de trait, de la couleur, et de nombreux paramètres de styles pour les objets dessinés.
+   - Possibilité de modifier et déplacer les formes grace à un panneau de configuration apparaissant quand on sélectionne une forme.
+   - Synchronisation en temps réel des formes dessinées ou supprimées avec les autres membres du salon.
+   - Changement de la couleur de fond possible depuis l'onglet paramètres, avertissement original du changement aux autres utilisateurs.
+- Gestion des permissions
+   - possibilité d'autoriser l'édition et la supression des formes de l'utilisateur depuis l'onglet Paramètres.
+   - Gestion des permissions au niveau des objets dessinés.
+- Sauvegarde du travail
+   - Possibilité d'exporter le travail aux formats SVG ou PNG!
+   - Suppression automatique des salons non utilisés après un certain délai.
+   - Persistance des dessins des salons dans la base de données locale du serveur.
+
+## Points d'amélioration
+
+- Duplication des objets.
+- Déplacement des objets avec les flèches du clavier.
+- Gestion de la superpositions des objets.
+- Ajout d'images
 
 ## Scénario de test
 Voici un petit scénario utilisateur pour tester le projet.

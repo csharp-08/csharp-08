@@ -12,7 +12,7 @@ namespace csharp_08
     {
         private static uint IDs = 1;
 
-        // Shape ID. Needs to be public to retrieve shape from the database on reboot
+        // Shape ID. Needs to be public to retrieve shape from the database on reboot.
         public uint ID { get; set; }
 
         public List<Tuple<double, double>> Vertices { get; private set; }

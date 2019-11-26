@@ -19,7 +19,7 @@ Nous avons réalisé un whiteboard collaboratif qui fonctionne en application WE
 
 Pour démarrer le projet, il suffit de l'ouvrir avec un IDE C# (idéalement Visual Studio) et de lancer le programme.
 
-Ensuite, l'application devrait se trouver à l'addresse: [localhost:5000](http://locahost:5000) 
+Ensuite, l'application devrait se trouver à l'addresse: [localhost:5001](http://locahost:5001) 
 
 ## Fonctionnalitées
 

@@ -40,7 +40,7 @@ yarn install
 yarn serve
 ```
 
-Le client est alors accessible à l'adresse https://localhost:8080.
+Le client est alors accessible à l'adresse http://localhost:8080.
 
 ## Fonctionnalitées
 

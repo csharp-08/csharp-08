@@ -7,6 +7,7 @@
 3) [Fonctionnalitées](#fonctionnalitees)
 4) [Choix techniques](#choix-techniques)
 5) [Diagramme de classes](#diagramme-de-classes)
+5) [Aperçu](#aperçu)
 
 ## Introduction
 
@@ -97,3 +98,7 @@ Enfin, nous avons décidé d'utiliser la librairie [SignalR](https://dotnet.micr
 ## Diagramme de classes
 
 ![Diagramme de classes](docs/classes.png)
+
+## Aperçu
+
+![Apercu](docs/canvas_example.png)

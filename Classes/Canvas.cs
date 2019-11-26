@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SQLite;
 using System.Collections.Generic;
+using System;
 
 namespace csharp_08
 {
@@ -100,11 +101,12 @@ namespace csharp_08
         /// <returns>A SVG formatted string</returns>
         public string ToSVG()
         {
-            string svg = "<svg width=\"1920\" height=\"1080\">\n";
+            string svg = "<svg width=\"1920\" height=\"1080\">";
+            svg += Environment.NewLine;
 
             foreach (Shape shape in Shapes.Values)
             {
-                svg += shape.ToSVG() + "\n";
+                svg += shape.ToSVG() + Environment.NewLine;
             }
 
             svg += "</svg>";

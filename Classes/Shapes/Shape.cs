@@ -111,13 +111,17 @@ namespace csharp_08
             string str = "";
 
             str += "ID: " + ID;
-            str += "\nPropriétaire: " + Owner.Username;
-            str += "\nListe des points:";
+            str += Environment.NewLine;
+            str += "Propriétaire: " + Owner.Username;
+            str += Environment.NewLine;
+            str += "Liste des points:";
             foreach (Tuple<double, double> point in Vertices)
             {
-                str += "\n\tx: " + point.Item1 + ", y: " + point.Item2;
+                str += Environment.NewLine;
+                str += "\tx: " + point.Item1 + ", y: " + point.Item2;
             }
-            str += "\nConfig: " + Config;
+            str += Environment.NewLine;
+            str += "Config: " + Config;
 
             return str;
         }

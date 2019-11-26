@@ -32,7 +32,7 @@ namespace csharp_08
 
         public override string ToString()
         {
-            return "Forme: Text\nText: " + InnerText + "\n" + base.ToString();
+            return "Forme: Text" + Environment.NewLine + "Text: " + InnerText + Environment.NewLine + base.ToString();
         }
 
         public override byte GetShapeCode()

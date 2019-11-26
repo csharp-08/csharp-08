@@ -24,7 +24,7 @@ namespace csharp_08
 
         public override string ToString()
         {
-            return "Forme: Forme Libre\n" + base.ToString();
+            return "Forme: Forme Libre" + Environment.NewLine + base.ToString();
         }
 
         public override byte GetShapeCode()

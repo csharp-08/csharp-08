@@ -24,7 +24,7 @@ namespace csharp_08
 
         public override string ToString()
         {
-            return "Forme: Polygone\n" + base.ToString();
+            return "Forme: Polygone" + Environment.NewLine + base.ToString();
         }
 
         public override byte GetShapeCode()

@@ -36,15 +36,20 @@ namespace csharp_08
             string str = "";
 
             str += "ID: " + ID;
-            str += "\nPropriétaire: " + Owner.Username;
-            str += "\nCentre:";
+            str += Environment.NewLine;
+            str += "Propriétaire: " + Owner.Username;
+            str += Environment.NewLine;
+            str += "Centre:";
 
             Tuple<double, double> point = Vertices[0];
-            str += "\n\tx: " + point.Item1 + ", y: " + point.Item2;
-
-            str += "\nRayon: " + Radius;
-            str += "\nÉpaisseur: " + Config.Thickness;
-            str += "\nCouleur: " + Config.Color.ToString();
+            str += Environment.NewLine;
+            str += "\tx: " + point.Item1 + ", y: " + point.Item2;
+            str += Environment.NewLine;
+            str += "Rayon: " + Radius;
+            str += Environment.NewLine;
+            str += "Épaisseur: " + Config.Thickness;
+            str += Environment.NewLine;
+            str += "Couleur: " + Config.Color.ToString();
 
             return str;
         }

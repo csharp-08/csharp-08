@@ -82,8 +82,9 @@ namespace csharp_08
                 lobby.Drawers.Remove(sessionId);
                 await base.OnDisconnectedAsync(exception);
                 await Clients.Group(lobby.GroupName).SendAsync("drawers", JsonConvert.SerializeObject(lobby.Drawers));
+                IHubCallerClients outContextClients = Clients;
                 // executed in the background - we don't want to wait for it
-                var ignoredTask = Task.Delay(1000 * 60 * 5).ContinueWith(async t =>
+                var ignoredTask = Task.Delay(1000 * 30).ContinueWith(async t =>
                 {
                     SQLiteConnection db = new SQLiteConnection("database.db");
                     if (!lobby.Drawers.ContainsKey(sessionId)) // enable object edition and deletion
@@ -94,7 +95,7 @@ namespace csharp_08
                             if (entry.Value.Owner == User.Users[sessionId])
                             {
                                 entry.Value.OverrideUserPolicy = 0b11; // can edit and can delete
-                                await Clients.Group(lobby.GroupName).SendAsync("newShapePermission", entry.Value.ID, entry.Value.OverrideUserPolicy);
+                                await outContextClients.Group(lobby.GroupName).SendAsync("newShapePermission", entry.Value.ID, entry.Value.OverrideUserPolicy);
                             }
                         }
                         db.Update(lobby.Canvas);

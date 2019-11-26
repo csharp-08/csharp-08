@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="csharp_08.InvalidShapeDefinitionException" Collapsed="true">
+    <Position X="14.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Exceptions\InvalidShapeDefinitionException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.NegativeRadiusException" Collapsed="true">
+    <Position X="10.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Exceptions\NegativeRadiusException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.ConnectionHub" Collapsed="true">
+    <Position X="12.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EEAAMAAAAAAAAAAAAggAABAAAAAAAAAAAEAAAAIAAAA=</HashCode>
+      <FileName>Classes\Hubs\ConnectionHub.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.Circle" Collapsed="true">
+    <Position X="11.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAIAAAAAAAAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Shapes\Circle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.Line" Collapsed="true">
+    <Position X="13.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Shapes\Line.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.Pencil" Collapsed="true">
+    <Position X="6.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Shapes\Pencil.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.Polygon" Collapsed="true">
+    <Position X="9" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Shapes\Polygon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.Shape" Collapsed="true">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IACAAACAAgAAgggFAAAgAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Shapes\Shape.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.ShapeConfig" Collapsed="true">
+    <Position X="14.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAACAABAIAEAAIAAAACAAAAAADAAAAAgAAAAAA=</HashCode>
+      <FileName>Classes\Shapes\ShapeConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.Text" Collapsed="true">
+    <Position X="15.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAFAAAAAgAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Shapes\Text.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.ColorJsonConverter" Collapsed="true">
+    <Position X="10.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQQAAAAABIAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Classes\Utils\ColorJSONConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.Canvas">
+    <Position X="6.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAGAAAAAAAAgAABAAAAIAAACCBAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Classes\Canvas.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.Lobby">
+    <Position X="8.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAIAAAAAAAAAAAAgAAAAAAYAAAE=</HashCode>
+      <FileName>Classes\Lobby.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.User" Collapsed="true">
+    <Position X="12.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAQAAAAAAwAQAAAAAIIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.Program" Collapsed="true">
+    <Position X="12.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAABAABAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.Startup" Collapsed="true">
+    <Position X="10.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Startup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.Utils.ShapeUtils" Collapsed="true">
+    <Position X="16" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAMABAAAAAAAAAAggAAAAAAAAAEAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Classes\Utils\ShapeUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="csharp_08.Utils.UserUtils" Collapsed="true">
+    <Position X="14.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Classes\Utils\UserUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="csharp_08.Utils.ShapeCode" Collapsed="true">
+    <Position X="10.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAgAAAAAAAAACAABACA=</HashCode>
+      <FileName>Classes\Utils\ShapeUtils.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

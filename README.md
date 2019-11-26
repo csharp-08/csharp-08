@@ -1,7 +1,5 @@
 # Whiteboard Colaboratif, projet csharp-08    
 
-This is an Academic Project for OOP course at CentraleSupélec.
-
 ## Table des matières
 
 1) [Introduction](#introduction)
@@ -13,13 +11,35 @@ This is an Academic Project for OOP course at CentraleSupélec.
 ## Introduction
 
 Ce projet fait parti du cours de POOA :
-Nous avons réalisé un whiteboard collaboratif qui fonctionne en application WEB : application consituée d'un backend en c# et d'un client javascript (VueJS) déjà compilé dans le dossier statique ./wwwroot.
+Nous avons réalisé un whiteboard collaboratif qui fonctionne en application WEB : application consituée d'un backend en c# et d'un client javascript (VueJS) (déjà compilé dans le dossier statique ./wwwroot pour la version du projet dans le .zip).
 
 ## Mise en place du projet
 
+### À partir du zip
 Pour démarrer le projet, il suffit de l'ouvrir avec un IDE C# (idéalement Visual Studio) et de lancer le programme.
 
-Ensuite, l'application devrait se trouver à l'addresse: [localhost:5001](http://locahost:5001) 
+Ensuite, l'application devrait se trouver à l'addresse: [localhost:5001](https://locahost:5001)
+
+### Depuis zéro
+#### Serveur
+Pour démarrer le serveur, ouvrir [le projet](https://github.com/csharp-08/csharp-08) dans visual studio et lancer le programme.
+Le serveur va alors écouter en https sur le port 5001.
+
+#### Client
+Il faut alors lancer le client VueJS. Premièrement, télécharger [le projet](https://github.com/csharp-08/client).
+
+Créer ensuite un fichier .env contenant la ligne suivante:
+```
+VUE_APP_BASE_URL=https://localhost:5001
+```
+
+Ensuite exécuter:
+```
+yarn install
+yarn serve
+```
+
+Le client est alors accessible à l'adresse https://localhost:8080
 
 ## Fonctionnalitées
 

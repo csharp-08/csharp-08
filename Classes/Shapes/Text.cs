@@ -1,6 +1,6 @@
-﻿using System;
+﻿using csharp_08.Utils;
+using System;
 using System.Collections.Generic;
-using csharp_08.Utils;
 
 namespace csharp_08
 {
@@ -14,7 +14,7 @@ namespace csharp_08
         public uint FontSize { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="Vertices">The coordinates of the points that describe the location of the Text object</param>
         /// <param name="Owner">The user owning the Text object</param>

@@ -39,11 +39,22 @@ yarn install
 yarn serve
 ```
 
-Le client est alors accessible à l'adresse https://localhost:8080
+Le client est alors accessible à l'adresse https://localhost:8080.
 
 ## Fonctionnalitées
 
 // TODO
+
+## Scénario de test
+Voici un petit scénario utilisateur pour tester le projet.
+
+1. Lancer le projet (via Visual Studio)
+2. Dans un navigateur web, rentrer l'adresse suivante: https://localhost:5001
+3. Sur l'écran de connexion, rentrer un nom d'utilisateur et laisser le champs "Nom du salon" à default. Cliquer sur "Commencer"
+4. Une fois rentré dans le salon, dessiner diverses formes (ligne libre, ligne droite, cerle, polygone, texte). Ne pas hésiter à changer la couleur des formes ainsi que leur position
+5. Une fois les formes dessinées, couper l'exécution du programme puis la relancer
+6. Recharger la page wbe du client -> la connexion au salon devrait être automatique, et les formes précédemment dessinées devraient être toujours présentes.
+7. Enfin, cliquer sur le bouton d'export (le plus à droite de la barre d'outils) et exporter le canvas en PNG ou SVG
 
 ## Choix techniques
 
@@ -52,7 +63,9 @@ Le client (frontend) est en javascript et utilise le framework VueJS. Ce choix a
 
 On utilise des websockets pour la communication entre les clients et le serveur. La raison principale est le besoin d'envoyer des messages du serveur vers les clients et le websocket et parfait pour ça.
 
-Enfin, nous avons décidé d'utiliser la librairie [SignalR](https://dotnet.microsoft.com/apps/aspnet/signalr) développée par Microsoft pour implémenter les websockets a la fois coté serveur et coté client. Cette librairie nous permet de ne pas réinventer la roue et d'accélerer le développement de nos fonctionnalitées souhaitées.   
+Le serveur est entièrement résistant au redémarrage. Ainsi, tous les utilisateurs, salons et canvas sont sauvegardés dans une base de donnée SQLite et sont restaurés au lancement de l'application.
+
+Enfin, nous avons décidé d'utiliser la librairie [SignalR](https://dotnet.microsoft.com/apps/aspnet/signalr) développée par Microsoft pour implémenter les websockets à la fois coté serveur et coté client. Cette librairie nous permet de ne pas réinventer la roue et d'accélerer le développement des fonctionnalitées souhaitées.   
 
 ## Diagramme de classes
 

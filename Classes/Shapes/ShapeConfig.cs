@@ -37,7 +37,7 @@ namespace csharp_08
         /// <param name="IsEmpty">Tells if the object is empty inside or not</param>
         public ShapeConfig(int Thickness = 10, Color Color = new Color(), Color BorderColor = new Color(),
                            double OffsetX = 0, double OffsetY = 0, double ScaleX = 1,
-                           double ScaleY = 1, double Rotate = 0, bool IsEmpty = false)
+                           double ScaleY = 1, double Rotation = 0, bool IsEmpty = false)
         {
             this.Thickness = Thickness;
             this.Color = Color;
@@ -46,7 +46,7 @@ namespace csharp_08
             this.OffsetY = OffsetY;
             this.ScaleX = ScaleX;
             this.ScaleY = ScaleY;
-            this.Rotation = Rotate;
+            this.Rotation = Rotation;
             this.IsEmpty = IsEmpty;
         }
 

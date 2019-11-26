@@ -15,6 +15,14 @@ Ce projet fait parti du cours de POOA :
 Nous avons réalisé un whiteboard collaboratif qui fonctionne en application WEB : application consituée d'un backend en c# et d'un client javascript (VueJS) (déjà compilé dans le dossier statique ./wwwroot pour la version du projet dans le .zip).
 
 ## Mise en place du projet
+### Packages nugget
+Voici la liste des packets nuggets qui sont nécessaires pour le fonctionnement du projet. Ils sont normalement installés au lancement de la solution par visual studio.
+```
+Microsoft.AspNetCore.App                                                                                                           Microsoft.AspNetCore.Razor.Design
+Newtonsoft.Json
+sqlite-net-pcl
+System.Data.SQLite
+```
 
 ### À partir du zip
 Pour démarrer le projet, il suffit de l'ouvrir avec un IDE C# (idéalement Visual Studio) et de lancer le programme.
